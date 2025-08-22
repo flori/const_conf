@@ -1,0 +1,7 @@
+development: &development
+  hello: world
+
+test: *development
+
+production:
+  hello: outer world

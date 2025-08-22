@@ -1,0 +1,9 @@
+.*.sw[pon]
+.AppleDouble
+.bundle
+.yardoc
+Gemfile.lock
+coverage
+doc
+pkg
+tags
