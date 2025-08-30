@@ -16,7 +16,7 @@ GemHadar do
   EOT
   test_dir    'spec'
   ignore      '.*.sw[pon]', 'pkg', 'Gemfile.lock', '.AppleDouble', '.bundle',
-    '.yardoc', 'doc', 'tags', 'coverage'
+    '.yardoc', 'doc', 'tags', 'coverage', 'cscope.out', '.starscope.db'
   package_ignore '.all_images.yml', '.gitignore', 'VERSION', '.utilsrc',
     '.github', *Dir['.contexts/*']
   readme      'README.md'

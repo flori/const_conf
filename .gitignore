@@ -1,9 +1,11 @@
 .*.sw[pon]
 .AppleDouble
 .bundle
+.starscope.db
 .yardoc
 Gemfile.lock
 coverage
+cscope.out
 doc
 pkg
 tags
