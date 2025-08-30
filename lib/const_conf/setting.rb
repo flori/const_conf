@@ -349,6 +349,7 @@ class ConstConf::Setting
     io.string
   end
 
+  # The original inspect method.
   alias inspect_original inspect
 
   # The inspect method returns a string representation of the object, with
