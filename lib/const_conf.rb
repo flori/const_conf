@@ -129,7 +129,9 @@ module ConstConf
     #
     # @param id [ Symbol ] the name of the constant being added
     def const_added(id)
+      id = id.to_sym
       if const = const_get(id) and const.is_a?(Module)
+        nested_module_constants << id
         const.class_eval do
           include ConstConf
         end
@@ -165,6 +167,20 @@ module ConstConf
       super if defined? super
     end
 
+    # Removes a constant from the module and updates the nested module
+    # constants set.
+    #
+    # This method removes a constant from its parent module using the standard
+    # super mechanism and then removes the constant name from the
+    # nested_module_constants set to maintain consistency in tracking nested
+    # configuration modules.
+    #
+    # @param id [ Symbol ] the name of the constant to remove
+    private def remove_const(id)
+      super
+      nested_module_constants.delete(id.to_sym)
+    end
+
     # Sets or retrieves the description for a ConstConf module.
     #
     # This method provides access to the description attribute of a
@@ -195,6 +211,22 @@ module ConstConf
     #   for this configuration module, keyed by their environment variable names
     def settings
       @settings ||= {}
+    end
+
+    # Returns the set of nested module constants for the configuration in
+    # definition order.
+    #
+    # This method provides access to the internal storage that tracks which
+    # constants within a configuration module are themselves modules that
+    # include ConstConf. It ensures the set is initialized before returning it,
+    # guaranteeing that subsequent accesses will return the same set instance.
+    #
+    # @return [Set<Symbol>] the set containing the names of nested module constants
+    # @see #const_added
+    # @see #nested_configurations
+    # @see #all_configurations
+    def nested_module_constants
+      @nested_module_constants ||= Set[]
     end
 
     # The prefix reader accessor returns the configured prefix for the setting.
@@ -264,7 +296,7 @@ module ConstConf
     # @return [ Array<Module> ] an array containing nested configuration
     # modules that inherit from ConstConf
     def nested_configurations
-      constants.map { |c|
+      nested_module_constants.map { |c|
         begin
           m = const_get(c)
         rescue NameError
@@ -377,9 +409,10 @@ module ConstConf
     # Iterates over a configuration module and its nested configurations in a
     # depth-first manner.
     #
-    # This method yields each configuration module, including the receiver and all nested modules,
-    # in a depth-first traversal order. It is used internally to process all configuration
-    # settings across a module hierarchy.
+    # This method yields each configuration module, including the receiver and
+    # all nested modules, in a depth-first traversal order. It is used
+    # internally to process all configuration settings across a module
+    # hierarchy.
     #
     # @yield [ configuration ] yields each configuration module in the hierarchy
     # @yieldparam configuration [ Module ] a configuration module from the hierarchy
@@ -389,12 +422,12 @@ module ConstConf
     def each_nested_configuration(&block)
       return enum_for(:each_nested_configuration) unless block_given?
       configuration_modules = [ self ]
-      while configuration = configuration_modules.shift
-        yield configuration
-        configuration.nested_configurations.each do
+      while configuration = configuration_modules.pop
+        configuration.nested_configurations.reverse_each do
           configuration_modules.member?(it) and next
           configuration_modules << it
         end
+        yield configuration
       end
     end
   end

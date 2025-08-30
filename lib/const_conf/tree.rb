@@ -80,7 +80,7 @@ module ConstConf
           obj << convert_setting(setting)
         end
 
-        modul.constants.sort.each do |const_name|
+        modul.nested_module_constants.each do |const_name|
           begin
             const = modul.const_get(const_name)
             if const.is_a?(Module) && const < ConstConf

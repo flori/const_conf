@@ -88,34 +88,60 @@ describe ConstConf do
           module TestNestedConstConf
             include ConstConf
 
-            description 'TestConstConf'
+            module Zebra
+              description 'Last module defined'
 
-            module InnerConstConf
-              description 'InnerConstConf'
+              module InnerZebra
+                description 'Inner zebra'
+              end
+            end
+
+            module Alpha
+              description 'First module defined'
+
+              module InnerAlpha
+                description 'Inner alpha'
+              end
+            end
+
+            module Beta
+              description 'Middle module defined'
+
+              module InnerBeta
+                description 'Inner beta'
+              end
             end
           end
         end
 
         describe '.outer_configuration' do
           it 'knows about outer_configuration' do
-            expect(TestNestedConstConf::InnerConstConf.outer_configuration).
+            expect(TestNestedConstConf::Zebra::InnerZebra.outer_configuration).
               to eq TestNestedConstConf
           end
         end
 
         describe '.all_configurations' do
           it 'can return all configurations' do
-            expect(TestNestedConstConf.all_configurations).to eq(
-              [ TestNestedConstConf, TestNestedConstConf::InnerConstConf ]
-            )
+            expect(TestNestedConstConf.all_configurations).to eq [
+              TestNestedConstConf,
+              TestNestedConstConf::Zebra,
+              TestNestedConstConf::Zebra::InnerZebra,
+              TestNestedConstConf::Alpha,
+              TestNestedConstConf::Alpha::InnerAlpha,
+              TestNestedConstConf::Beta,
+              TestNestedConstConf::Beta::InnerBeta,
+            ]
           end
         end
 
         describe '.nested_configurations' do
           it 'can return nested configurations' do
-            expect(TestNestedConstConf.nested_configurations).to eq(
-              [ TestNestedConstConf::InnerConstConf ]
-            )
+            expect(TestNestedConstConf.nested_configurations).to eq [
+              TestNestedConstConf::Zebra,
+              TestNestedConstConf::Alpha,
+              TestNestedConstConf::Beta,
+            ]
           end
 
           describe '.each_nested_configuration' do
@@ -123,7 +149,37 @@ describe ConstConf do
               expect(TestNestedConstConf.each_nested_configuration).
                 to be_a Enumerator
               expect(TestNestedConstConf.each_nested_configuration.to_a).
-                to eq([ TestNestedConstConf, TestNestedConstConf::InnerConstConf ])
+                to eq [
+                  TestNestedConstConf,
+                  TestNestedConstConf::Zebra,
+                  TestNestedConstConf::Zebra::InnerZebra,
+                  TestNestedConstConf::Alpha,
+                  TestNestedConstConf::Alpha::InnerAlpha,
+                  TestNestedConstConf::Beta,
+                  TestNestedConstConf::Beta::InnerBeta,
+                ]
+            end
+          end
+
+          describe '.remove_const' do
+            it 'can remove a constant' do
+              expect(TestNestedConstConf.all_configurations).to eq [
+                TestNestedConstConf,
+                TestNestedConstConf::Zebra,
+                TestNestedConstConf::Zebra::InnerZebra,
+                TestNestedConstConf::Alpha,
+                TestNestedConstConf::Alpha::InnerAlpha,
+                TestNestedConstConf::Beta,
+                TestNestedConstConf::Beta::InnerBeta,
+              ]
+              TestNestedConstConf.send(:remove_const, :Alpha)
+              expect(TestNestedConstConf.all_configurations).to eq [
+                TestNestedConstConf,
+                TestNestedConstConf::Zebra,
+                TestNestedConstConf::Zebra::InnerZebra,
+                TestNestedConstConf::Beta,
+                TestNestedConstConf::Beta::InnerBeta,
+              ]
             end
           end
         end
