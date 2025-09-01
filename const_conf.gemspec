@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency(%q<all_images>.freeze, ["~> 0.6".freeze])
   s.add_development_dependency(%q<simplecov>.freeze, ["~> 0.22".freeze])
   s.add_runtime_dependency(%q<tins>.freeze, ["~> 1.42".freeze])
-  s.add_runtime_dependency(%q<rails>.freeze, ["~> 8".freeze])
   s.add_runtime_dependency(%q<json>.freeze, ["~> 2.0".freeze])
   s.add_runtime_dependency(%q<complex_config>.freeze, ["~> 0.22".freeze])
+  s.add_runtime_dependency(%q<activesupport>.freeze, ["~> 8".freeze])
 end

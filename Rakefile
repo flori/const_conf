@@ -22,9 +22,9 @@ GemHadar do
   readme      'README.md'
 
   dependency 'tins',           '~> 1.42'
-  dependency 'rails',          '~> 8'
   dependency 'json',           '~> 2.0'
   dependency 'complex_config', '~> 0.22'
+  dependency 'activesupport',  '~> 8'
   development_dependency 'debug'
   development_dependency 'rspec',         '~> 3.13'
   development_dependency 'context_spook', '~> 0.3'

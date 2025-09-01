@@ -20,7 +20,7 @@ require 'const_conf/json_plugin'
 require 'const_conf/yaml_plugin'
 require 'const_conf/env_dir_extension'
 require 'const_conf/tree'
-require 'const_conf/railtie'
+require 'const_conf/railtie' if defined? Rails::Railtie
 
 module ConstConf
   include ConstConf::Errors
