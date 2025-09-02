@@ -129,7 +129,7 @@ module ConstConf
           env var name    #{setting.env_var_name}
           env var (orig.) #{truncater.(censored.(setting).env_var.inspect)}
           default         #{truncater.(censored.(setting).default_value.inspect)}
-          value           #{truncater.(censored.(setting).value.inspect)}
+          value           #{bold { truncater.(censored.(setting).value.inspect) }}
           sensitive       #{setting.sensitive? ? '🔒' : '⚪'}
           required        #{setting.required? ? '🔴' : '⚪'}
           configured      #{setting.configured? ? '🔧' : '⚪' }
