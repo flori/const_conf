@@ -30,7 +30,7 @@ module ConstConf::ConstConfHelper
           "parent constant #{parent_const_name} does not exist"
         parent_const = Object.const_get(parent_const_name)
         allow(parent_const).to receive("#{const_parts.last}?").
-          and_return(!!value)
+          and_return(value)
       end
     end
   end
