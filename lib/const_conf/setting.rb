@@ -99,9 +99,9 @@ class ConstConf::Setting
 
   # Checks if the configuration setting passes its validation check.
   #
-  # @return [Boolean, Symbol] true if the setting's check logic evaluates to true,
-  # false or false if not. I no check was defined, returns :unchecked_true.
-  # @see check
+  # @return [Boolean, Symbol] true if the setting's check logic evaluates to
+  # true, # false or false if not. I no check was defined, returns
+  # :unchecked_true. @see check
   def checked?
     instance_eval(&check)
   end
@@ -119,8 +119,10 @@ class ConstConf::Setting
   # @param value [Boolean, Proc] the value to set for the required flag
   #   - true/false: Simple boolean requirement check
   #   - Proc: Dynamic validation logic that can be evaluated in two ways:
-  #     * With arity 1: Called with the setting's value (e.g., `->(value) { value.present? }`)
-  #     * With arity 0: Called without arguments (e.g., `-> { some_value.present? }`)
+  #     * With arity 1: Called with the setting's value (e.g., `->(value) {
+  #     value.present? }`)
+  #     * With arity 0: Called without arguments (e.g., `-> {
+  #     some_value.present? }`)
   # @return [Boolean, Proc] returns the value that was set
   # @method required(value = nil, &block)
   # @see #required?
@@ -129,10 +131,10 @@ class ConstConf::Setting
   # Checks if the setting has a required value configured or as a default
   # value.
   #
-  # This method evaluates whether the configuration setting is marked as required
-  # and determines if a valid value is present. It handles different forms of
-  # required specification including boolean flags and Proc objects that can
-  # perform dynamic validation based on the current value or context.
+  # This method evaluates whether the configuration setting is marked as
+  # required and determines if a valid value is present. It handles different
+  # forms of required specification including boolean flags and Proc objects
+  # that can perform dynamic validation based on the current value or context.
   #
   # @return [Boolean] true if the setting is marked as required and has a valid
   #   value according to its validation logic, false otherwise

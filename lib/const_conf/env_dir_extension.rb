@@ -53,8 +53,10 @@ module ConstConf::EnvDirExtension
   # the filename and configures them as required and sensitive settings with
   # chomped values.
   #
-  # @param globs [Array<String>] glob patterns to match files containing environment variables
-  # @yield [ binding ] yields the binding of the caller to allow evaluation in the correct context
+  # @param globs [Array<String>] glob patterns to match files containing
+  # environment variables
+  # @yield [ binding ] yields the binding of the caller to allow evaluation in
+  # the correct context
   # @yieldparam binding [Binding] the binding to evaluate constants in
   def load_dotenv_dir(*globs, &block)
     block or raise ArgumentError, '&block argument is required'

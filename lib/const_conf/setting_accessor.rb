@@ -55,8 +55,10 @@ module ConstConf::SettingAccessor
   # objects which are evaluated when needed.
   #
   # @param name [Symbol] the name of the setting accessor to define
-  # @param default [Object] the default value for the setting, can be a Proc that gets evaluated
-  # @yield [] optional block to evaluate for default value when no explicit default is provided
+  # @param default [Object] the default value for the setting, can be a Proc
+  # that gets evaluated
+  # @yield [] optional block to evaluate for default value when no explicit
+  # default is provided
   # @return [Symbol] always returns the name as Symbol as it defines a method
   def setting_accessor(name, default = nil, transform: nil, &block)
     variable = "@#{name}"
@@ -76,7 +78,8 @@ module ConstConf::SettingAccessor
         if self.class.respond_to?(:setter_mode)
           if self.class.setter_mode && was_not_set
             raise ArgumentError,
-              "need an argument for the setting #{name.inspect} of #{self}, was nil"
+              "need an argument for the setting #{name.inspect} "\
+              "of #{self}, was nil"
           end
         end
         result =

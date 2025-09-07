@@ -32,7 +32,8 @@ module ConstConf
     # synchronize access to shared resources across threads. It ensures that
     # only one thread can execute critical sections of code at a time.
     #
-    # @return [Monitor] the singleton Monitor instance used for thread synchronization
+    # @return [Monitor] the singleton Monitor instance used for thread
+    # synchronization
     def monitor
       @monitor ||= Monitor.new
     end
@@ -43,7 +44,8 @@ module ConstConf
     # This method serves as a getter and setter for the module_files attribute,
     # which stores a hash mapping modules to their corresponding file paths.
     #
-    # @return [Hash, nil] the current value of the module_files instance variable
+    # @return [Hash, nil] the current value of the module_files instance
+    # variable
     attr_accessor :module_files
 
     # Registers a module-file mapping in the global registry.
@@ -68,7 +70,8 @@ module ConstConf
     # It collects the file paths associated with each module before removing
     # them, returning an array of the collected file paths.
     #
-    # @return [Array<String>] an array containing the file paths of the destroyed modules
+    # @return [Array<String>] an array containing the file paths of the
+    # destroyed modules
     def destroy
       monitor.synchronize do
         files = []
@@ -111,7 +114,8 @@ module ConstConf
     #
     # @param plugin [ Module ] the module to be included in ConstConf::Setting
     #
-    # @return [ Class ] returns the current class (self) to allow for method chaining
+    # @return [ Class ] returns the current class (self) to allow for method
+    # chaining
     def plugin(plugin)
       ConstConf::Setting.class_eval { include plugin }
       self
@@ -150,7 +154,8 @@ module ConstConf
           setting = Setting.new(name: [ name, id ], prefix:, &setting_block)
           if previous_setting = outer_configuration.setting_for(setting.env_var_name)
             raise ConstConf::SettingAlreadyDefined,
-              "setting for env var #{setting.env_var_name} already defined in #{previous_setting.name}"
+              "setting for env var #{setting.env_var_name} already defined "\
+              "in #{previous_setting.name}"
           end
           settings[setting.env_var_name] = setting
           const_set id, setting.value
@@ -202,13 +207,14 @@ module ConstConf
 
     # Returns the settings hash for the configuration module.
     #
-    # This method provides access to the internal hash that stores all configuration
-    # settings defined within the module. It ensures the hash is initialized before
-    # returning it, guaranteeing that subsequent accesses will return the same hash
-    # instance.
+    # This method provides access to the internal hash that stores all
+    # configuration settings defined within the module. It ensures the hash is
+    # initialized before returning it, guaranteeing that subsequent accesses
+    # will return the same hash instance.
     #
-    # @return [Hash<String, ConstConf::Setting>] the hash containing all settings
-    #   for this configuration module, keyed by their environment variable names
+    # @return [Hash<String, ConstConf::Setting>] the hash containing all
+    # settings for this configuration module, keyed by their environment
+    # variable names
     def settings
       @settings ||= {}
     end
@@ -221,7 +227,8 @@ module ConstConf
     # include ConstConf. It ensures the set is initialized before returning it,
     # guaranteeing that subsequent accesses will return the same set instance.
     #
-    # @return [Set<Symbol>] the set containing the names of nested module constants
+    # @return [Set<Symbol>] the set containing the names of nested module
+    # constants
     # @see #const_added
     # @see #nested_configurations
     # @see #all_configurations
@@ -264,7 +271,8 @@ module ConstConf
     # identifying the top-level configuration module that contains the current
     # one.
     #
-    # @return [ Module, nil ] the outer configuration module if found, or nil if none exists
+    # @return [ Module, nil ] the outer configuration module if found, or nil
+    # if none exists
     def outer_configuration
       [ self, *module_parents ].reverse_each.find { it < ConstConf }
     end
@@ -316,10 +324,14 @@ module ConstConf
     # environment variable name. It iterates through the module hierarchy to
     # find the setting, checking each module's settings hash for a match.
     #
-    # @param name [ String, Symbol ] the environment variable name to search for
-    # @param modules [ Array<Module> ] the array of modules to search within, defaults to [ self ]
+    # @param name [ String, Symbol ] the environment variable name to search
+    # for
     #
-    # @return [ ConstConf::Setting, nil ] the matching setting object if found, or nil if not found
+    # @param modules [ Array<Module> ] the array of modules to search within,
+    # defaults to [ self ]
+    #
+    # @return [ ConstConf::Setting, nil ] the matching setting object if found,
+    # or nil if not found
     def setting_for(name)
       name = name.to_s
       each_nested_configuration do |modul,|
@@ -338,8 +350,9 @@ module ConstConf
     # the module hierarchy to gather these names, ensuring that each setting's
     # environment variable name is included in the final result.
     #
-    # @return [Array<String>] an array containing all the environment variable names
-    #   used in the configuration settings across the module and its nested modules
+    # @return [Array<String>] an array containing all the environment variable
+    # names used in the configuration settings across the module and its nested
+    # modules
     def env_var_names
       names = Set[]
       each_nested_configuration do |modul,|
@@ -357,25 +370,27 @@ module ConstConf
     # environment variable names and values are their corresponding
     # configuration values.
     #
-    # @return [ Hash<String, Object> ] a hash mapping environment variable names to their values
+    # @return [ Hash<String, Object> ] a hash mapping environment variable
+    # names to their values
     def env_vars
       env_var_names.each_with_object({}) do |n, hash|
         hash[n] = setting_value_for(n)
       end
     end
 
-    # Retrieves the effective value for a configuration setting identified by its
-    # environment variable name.
+    # Retrieves the effective value for a configuration setting identified by
+    # its environment variable name.
     #
-    # This method looks up a configuration setting using the provided environment
-    # variable name and returns its effective value, which is determined by
-    # checking the environment variable and falling back to the default value if
-    # not set.
+    # This method looks up a configuration setting using the provided
+    # environment variable name and returns its effective value, which is
+    # determined by checking the environment variable and falling back to the
+    # default value if not set.
     #
-    # @param name [String, Symbol] the environment variable name used to identify the setting
+    # @param name [String, Symbol] the environment variable name used to
+    # identify the setting
     #
-    # @return [Object] the effective configuration value for the specified setting,
-    #   or the default value if the environment variable is not set
+    # @return [Object] the effective configuration value for the specified
+    # setting, or the default value if the environment variable is not set
     def setting_value_for(name)
       setting = setting_for(name)
       setting&.value
@@ -391,7 +406,8 @@ module ConstConf
     # standard output.
     #
     # @param object [Object] the ConstConf module or setting to display
-    # @param io [IO, nil] the IO object to write the output to; if nil, uses STDOUT
+    # @param io [IO, nil] the IO object to write the output to; if nil, uses
+    # STDOUT
     def view(object: self, io: nil)
       output = ConstConf::Tree.from_const_conf(object).to_a
       if io
@@ -414,8 +430,10 @@ module ConstConf
     # internally to process all configuration settings across a module
     # hierarchy.
     #
-    # @yield [ configuration ] yields each configuration module in the hierarchy
-    # @yieldparam configuration [ Module ] a configuration module from the hierarchy
+    # @yield [ configuration ] yields each configuration module in the
+    # hierarchy
+    # @yieldparam configuration [ Module ] a configuration module from the
+    # hierarchy
     #
     # @return [ Enumerator ] returns an enumerator if no block is given,
     # otherwise nil.

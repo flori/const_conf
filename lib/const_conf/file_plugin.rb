@@ -15,7 +15,8 @@ module ConstConf::FilePlugin
   # RequiredValueNotConfigured exception is raised.
   #
   # @param path [String] the filesystem path to the file to be read
-  # @param required [Boolean] whether the file is required to exist, defaults to false
+  # @param required [Boolean] whether the file is required to exist, defaults
+  # to false
   #
   # @return [String, nil] the content of the file if it exists, or nil if it
   # doesn't and required is false

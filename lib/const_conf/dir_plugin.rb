@@ -51,9 +51,11 @@ module ConstConf::DirPlugin
     # configuration.
     #
     # @param name [String] the name used to derive the directory path
-    # @param root_path [String, nil] the root path to use for deriving the directory path
+    # @param root_path [String, nil] the root path to use for deriving the
+    # directory path
     # @param env_var [String, nil] the environment variable value to use
-    # @param env_var_name [String, nil] the name of the environment variable to look up
+    # @param env_var_name [String, nil] the name of the environment variable to
+    # look up
     #
     # @raise [ArgumentError] if env_var and env_var_name were given.
     def initialize(name, root_path: nil, env_var:, env_var_name: nil)
@@ -129,8 +131,10 @@ module ConstConf::DirPlugin
     # Derives the full directory path by combining the root path and the given
     # name.
     #
-    # @param name [ String ] the name of the directory to be appended to the root path
-    # @param root_path [ String, nil ] the root path to use; if nil, the default root path is used
+    # @param name [ String ] the name of the directory to be appended to the
+    # root path
+    # @param root_path [ String, nil ] the root path to use; if nil, the
+    # default root path is used
     #
     # @return [ Pathname ] the combined directory path as a Pathname object
     def derive_directory_path(name, root_path)
@@ -163,9 +167,11 @@ module ConstConf::DirPlugin
   #
   # @param name [String] the name of the configuration directory
   # @param path [String] the filesystem path to the directory
-  # @param env_var [String, nil] the environment variable name to use for configuration
+  # @param env_var [String, nil] the environment variable name to use for
+  # configuration
   # @param env_var_name [String, nil] the full environment variable name to use
-  # @param default [Object] the default value to use when no configuration is provided
+  # @param default [Object] the default value to use when no configuration is
+  # provided
   # @param required [Boolean] whether the directory path is required to exist
   #
   # @return [Object] the result of reading path from the directory name
