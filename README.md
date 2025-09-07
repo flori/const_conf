@@ -762,6 +762,76 @@ ConstConf automatically integrates with Rails:
 - Configuration is reloaded when the application prepares configuration
 - Works seamlessly with Rails environment variables
 
+## Testing with ConstConf
+
+ConstConf provides built-in testing utilities to make it easy to test your
+configuration in isolation.
+
+### Using `const_conf_as` Helper
+
+The `ConstConf::ConstConfHelper` provides a convenient way to temporarily
+override constant values during testing:
+
+```ruby
+# In your test file
+require 'const_conf/spec'
+
+RSpec.describe "MyApp" do
+  include ConstConf::ConstConfHelper
+  
+  it "works with overridden configuration" do
+    const_conf_as(
+      'AppConfig::DATABASE_URL' => 'postgresql://test:pass@localhost/test',
+      'AppConfig::API_KEY' => 'test-key-123'
+    )
+    
+    # Now your tests can use the overridden values
+    expect(AppConfig::DATABASE_URL).to eq('postgresql://test:pass@localhost/test')
+    expect(AppConfig::API_KEY).to eq('test-key-123')
+  end
+end
+```
+
+To make the helper available throughout your test suite, add this to your
+`spec/spec_helper.rb` or `rails_helper.rb`:
+
+```ruby
+require 'const_conf/spec'
+
+# spec/spec_helper.rb or spec/rails_helper.rb
+RSpec.configure do |config|
+  config.include ConstConf::ConstConfHelper
+end
+```
+
+### Testing Nested Modules
+
+The helper also works with nested configuration modules:
+
+```ruby
+const_conf_as(
+  'AppConfig::Database::URL' => 'postgresql://test:pass@localhost/test',
+  'AppConfig::Database::ENABLED' => true
+)
+```
+
+This automatically sets up the predicate methods (`?`) for nested constants, so
+you can test both the values and their active status:
+
+```ruby
+expect(AppConfig::Database::URL?).to be_truthy
+expect(AppConfig::Database::ENABLED?).to be true
+```
+
+The helper ensures that:
+- Constants exist before attempting to override them
+- Parent modules are properly handled for nested constants
+- Predicate methods are correctly mocked for boolean values
+- Proper error handling is in place for missing constants
+
+This approach makes testing configuration-dependent code much easier and more
+reliable than relying on environment variables or manual setup.
+
 ## Debugging and Inspection
 
 View configuration hierarchies:
