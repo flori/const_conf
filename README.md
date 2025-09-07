@@ -109,6 +109,35 @@ end
 
 Or `nil` is returned, which can then be handled accordingly.
 
+### Note that **Getter Methods (`!`)** are also defined
+
+In addition to predicate methods, ConstConf automatically defines `!` methods
+that return the actual `ConstConf::Setting` object. These are useful for:
+
+- Accessing setting metadata and properties directly
+- Calling methods like `setting.view` for detailed configuration inspection of
+  a single setting.
+- Testing specific setting characteristics beyond just their values
+
+For example:
+
+```ruby
+# Returns the Setting object itself
+db_setting = AppConfig::DATABASE_URL!
+
+# Useful for debugging/inspection
+db_setting.view  # Shows detailed configuration information
+
+# Access setting properties directly
+puts db_setting.description
+puts db_setting.required?
+puts db_setting.sensitive?
+```
+
+This complements the `?` methods which return the actual configuration value
+when active, while the `!` methods provide access to the setting object for
+more advanced use cases.
+
 ### Configuration View Explanation
 
 The `AppConfig.view` output shows the complete configuration hierarchy with
