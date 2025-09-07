@@ -1,5 +1,10 @@
 # Changes
 
+## 2025-09-07 v0.2.1
+
+- Removed explicit boolean coercion previously applied to test values in
+  predicate methods
+
 ## 2025-09-07 v0.2.0
 
 - Implemented `ConstConf::ConstConfHelper` module in
