@@ -1,5 +1,13 @@
 # Changes
 
+## 2025-09-13 v0.2.2
+
+- Simplified ignore patterns in `Rakefile` by changing `*.contexts/*` to
+  `.contexts`
+- Removed `.github` from ignored patterns in `Rakefile`
+- Updated `gem_hadar` dependency from ~> **2.2** to ~> **2.6** in gemspec
+- Added documentation for getter methods with exclamation mark
+
 ## 2025-09-07 v0.2.1
 
 - Removed explicit boolean coercion previously applied to test values in
