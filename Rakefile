@@ -18,7 +18,7 @@ GemHadar do
   ignore      '.*.sw[pon]', 'pkg', 'Gemfile.lock', '.AppleDouble', '.bundle',
     '.yardoc', 'doc', 'tags', 'coverage', 'cscope.out', '.starscope.db'
   package_ignore '.all_images.yml', '.gitignore', 'VERSION', '.utilsrc',
-    '.github', *Dir['.contexts/*']
+    '.contexts'
   readme      'README.md'
 
   dependency 'tins',           '~> 1.42'

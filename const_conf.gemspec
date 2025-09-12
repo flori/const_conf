@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-# stub: const_conf 0.2.1 ruby lib
+# stub: const_conf 0.2.2 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "const_conf".freeze
-  s.version = "0.2.1".freeze
+  s.version = "0.2.2".freeze
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
 
   s.specification_version = 4
 
-  s.add_development_dependency(%q<gem_hadar>.freeze, ["~> 2.2".freeze])
+  s.add_development_dependency(%q<gem_hadar>.freeze, ["~> 2.6".freeze])
   s.add_development_dependency(%q<debug>.freeze, [">= 0".freeze])
   s.add_development_dependency(%q<rspec>.freeze, ["~> 3.13".freeze])
   s.add_development_dependency(%q<context_spook>.freeze, ["~> 0.3".freeze])
