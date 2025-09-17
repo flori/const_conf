@@ -249,16 +249,16 @@ graph TD
     Y --> AA[Default Value Handling]
     Y --> AB[Validation & Processing]
 
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#e8f5e9
-    style D fill:#fff3e0
-    style E fill:#fce4ec
-    style F fill:#f1f8e9
-    style G fill:#e0f2f1
-    style H fill:#f1f8e9
-    style I fill:#fafafa
-    style Y fill:#ffebee
+    style A fill:#e1f5fe;color:#07f
+    style B fill:#f3e5f5;color:#07f
+    style C fill:#e8f5e9;color:#07f
+    style D fill:#fff3e0;color:#07f
+    style E fill:#fce4ec;color:#07f
+    style F fill:#f1f8e9;color:#07f
+    style G fill:#e0f2f1;color:#07f
+    style H fill:#f1f8e9;color:#07f
+    style I fill:#fafafa;color:#07f
+    style Y fill:#ffebee;color:#07f
 ```
 
 #### FilePlugin
