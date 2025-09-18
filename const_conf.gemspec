@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency(%q<rspec>.freeze, ["~> 3.13".freeze])
   s.add_development_dependency(%q<context_spook>.freeze, ["~> 0.4".freeze])
   s.add_development_dependency(%q<all_images>.freeze, ["~> 0.8".freeze])
-  s.add_development_dependency(%q<simplecov>.freeze, ["~> 0.23".freeze])
+  s.add_development_dependency(%q<simplecov>.freeze, ["~> 0.22".freeze])
   s.add_runtime_dependency(%q<tins>.freeze, ["~> 1.43".freeze])
   s.add_runtime_dependency(%q<json>.freeze, ["~> 2.0".freeze])
   s.add_runtime_dependency(%q<complex_config>.freeze, ["~> 0.23".freeze])

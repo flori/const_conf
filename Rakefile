@@ -31,7 +31,7 @@ GemHadar do
   development_dependency 'rspec',         '~> 3.13'
   development_dependency 'context_spook', '~> 0.4'
   development_dependency 'all_images',    '~> 0.8'
-  development_dependency 'simplecov',     '~> 0.23'
+  development_dependency 'simplecov',     '~> 0.22'
 
   licenses << 'MIT'
 end
