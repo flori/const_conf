@@ -1,5 +1,5 @@
 require 'tins/xt'
-require 'rails'
+require 'active_support/all'
 
 # A configuration management module that provides environment variable-based
 # settings with validation and thread-safe operations.
@@ -149,7 +149,7 @@ module ConstConf
           self.last_setting = nil
           remove_const(id)
           prefix = [ self, *module_parents ].find {
-            !it.prefix.nil? and break it.prefix
+            !it.ask_and_send(:prefix).nil? and break it.prefix
           }
           setting = Setting.new(name: [ name, id ], prefix:, &setting_block)
           if previous_setting = outer_configuration.setting_for(setting.env_var_name)
