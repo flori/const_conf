@@ -1,5 +1,15 @@
 # Changes
 
+## 2025-09-18 v0.4.0
+
+- Improved handling of configuration files with trailing whitespace:
+  - Added `strip: false` parameter to the `ConstConf::FilePlugin#file` method to
+    enable automatic whitespace stripping when `strip: true` is specified
+  - Added comprehensive tests for the new strip functionality in
+    `file_plugin_spec.rb`
+- Updated the `simplecov` development dependency version from **0.23** to
+  **0.22** in both `Rakefile` and `const_conf.gemspec`
+
 ## 2025-09-18 v0.3.1
 
 - Replaced `require 'rails'` with `require 'active_support/all'` to reduce
