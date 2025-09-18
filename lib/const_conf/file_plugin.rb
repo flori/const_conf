@@ -23,9 +23,11 @@ module ConstConf::FilePlugin
   #
   # @raise [ConstConf::RequiredValueNotConfigured] if the file does not exist
   # and required is true
-  def file(path, required: false)
+  def file(path, required: false, strip: false)
     if File.exist?(path)
-      File.read(path)
+      value = File.read(path)
+      strip and value.strip!
+      value
     elsif required
       raise ConstConf::RequiredValueNotConfigured,
         "file required at path #{path.to_s.inspect}"

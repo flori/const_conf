@@ -100,6 +100,50 @@ describe ConstConf::FilePlugin do
         }.to raise_error(ConstConf::RequiredValueNotConfigured)
       end
     end
+
+    context 'with strip option' do
+      let(:whitespace_file) { File.join(temp_dir, 'whitespace.txt') }
+
+      before do
+        File.write(whitespace_file, "  test_content  \n\n")
+      end
+
+      it 'strips whitespace when strip: true is specified' do
+        result = instance.file(whitespace_file, strip: true)
+        expect(result).to eq "test_content"
+      end
+
+      it 'does not strip whitespace when strip: false (default)' do
+        result = instance.file(whitespace_file, strip: false)
+        expect(result).to eq "  test_content  \n\n"
+      end
+
+      it 'does not strip whitespace when strip option is omitted' do
+        result = instance.file(whitespace_file)
+        expect(result).to eq "  test_content  \n\n"
+      end
+
+      it 'handles empty files with strip: true' do
+        empty_file = File.join(temp_dir, 'empty.txt')
+        File.write(empty_file, "")
+
+        result = instance.file(empty_file, strip: true)
+        expect(result).to eq ""
+      end
+
+      it 'handles whitespace-only files with strip: true' do
+        whitespace_only_file = File.join(temp_dir, 'whitespace_only.txt')
+        File.write(whitespace_only_file, "   \n\t  ")
+
+        result = instance.file(whitespace_only_file, strip: true)
+        expect(result).to eq ""
+      end
+
+      it 'works correctly with required files and strip option' do
+        result = instance.file(whitespace_file, required: true, strip: true)
+        expect(result).to eq "test_content"
+      end
+    end
   end
 
   describe 'integration with ConstConf settings' do
