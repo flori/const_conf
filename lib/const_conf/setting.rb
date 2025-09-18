@@ -226,7 +226,7 @@ class ConstConf::Setting
   #
   # @return [String] the constructed environment variable name
   def env_var_name
-    prefix = @prefix.full? { "#{it}::" }.to_s
+    prefix = @prefix.full? { "#{_1}::" }.to_s
     name.sub(/^#{parent_namespace}::/,  prefix).gsub(/::/, ?_)
   end
 

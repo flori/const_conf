@@ -21,15 +21,17 @@ GemHadar do
     '.contexts'
   readme      'README.md'
 
-  dependency 'tins',           '~> 1.42'
+  required_ruby_version '3.2'
+
+  dependency 'tins',           '~> 1.43'
   dependency 'json',           '~> 2.0'
-  dependency 'complex_config', '~> 0.22'
+  dependency 'complex_config', '~> 0.23'
   dependency 'activesupport',  '~> 8'
   development_dependency 'debug'
   development_dependency 'rspec',         '~> 3.13'
-  development_dependency 'context_spook', '~> 0.3'
-  development_dependency 'all_images',    '~> 0.6'
-  development_dependency 'simplecov',     '~> 0.22'
+  development_dependency 'context_spook', '~> 0.4'
+  development_dependency 'all_images',    '~> 0.8'
+  development_dependency 'simplecov',     '~> 0.23'
 
   licenses << 'MIT'
 end

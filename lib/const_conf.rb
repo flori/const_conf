@@ -94,7 +94,7 @@ module ConstConf
     # files. It performs this operation in a thread-safe manner using the
     # monitor for synchronization.
     def reload
-      monitor.synchronize { destroy.each { load it } }
+      monitor.synchronize { destroy.each { load _1 } }
       nil
     end
   end
@@ -140,7 +140,7 @@ module ConstConf
           include ConstConf
         end
         prefix = [ self, *module_parents ].find {
-          !it.prefix.nil? and break it.prefix
+          !_1.prefix.nil? and break _1.prefix
         }
         const.prefix [ prefix, const.name.sub(/.*::/, '') ].select(&:present?) * ?_
       end
@@ -149,7 +149,7 @@ module ConstConf
           self.last_setting = nil
           remove_const(id)
           prefix = [ self, *module_parents ].find {
-            !it.ask_and_send(:prefix).nil? and break it.prefix
+            !_1.ask_and_send(:prefix).nil? and break _1.prefix
           }
           setting = Setting.new(name: [ name, id ], prefix:, &setting_block)
           if previous_setting = outer_configuration.setting_for(setting.env_var_name)
@@ -274,7 +274,7 @@ module ConstConf
     # @return [ Module, nil ] the outer configuration module if found, or nil
     # if none exists
     def outer_configuration
-      [ self, *module_parents ].reverse_each.find { it < ConstConf }
+      [ self, *module_parents ].reverse_each.find { _1 < ConstConf }
     end
 
     # Returns an array containing all nested configuration modules recursively,
@@ -442,8 +442,8 @@ module ConstConf
       configuration_modules = [ self ]
       while configuration = configuration_modules.pop
         configuration.nested_configurations.reverse_each do
-          configuration_modules.member?(it) and next
-          configuration_modules << it
+          configuration_modules.member?(_1) and next
+          configuration_modules << _1
         end
         yield configuration
       end

@@ -71,7 +71,7 @@ module ConstConf
       # @return [ConstConf::Tree] a tree object representing the module's
       # configuration hierarchy
       def convert_module(modul)
-        desc = "#{modul.description.full? { italic(' # %s' % it) }}"
+        desc = "#{modul.description.full? { italic(' # %s' % _1) }}"
         obj  = new("#{modul.name}#{desc}")
         obj << new("prefix #{modul.prefix.inspect}")
         obj << new("#{modul.settings.size} settings")
@@ -105,7 +105,7 @@ module ConstConf
       #
       # @return [ConstConf::Tree] a tree node representing the configuration setting
       def convert_setting(setting)
-        desc = "#{setting.description.full? { italic(' # %s' % it) }}"
+        desc = "#{setting.description.full? { italic(' # %s' % _1) }}"
         obj  = new("#{bold(setting.name)}#{desc}")
 
         length = (Tins::Terminal.columns / 4).clamp(20..)
