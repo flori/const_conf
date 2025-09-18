@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-# stub: const_conf 0.3.0 ruby lib
+# stub: const_conf 0.3.1 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "const_conf".freeze
-  s.version = "0.3.0".freeze
+  s.version = "0.3.1".freeze
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/flori/const_conf".freeze
   s.licenses = ["MIT".freeze]
   s.rdoc_options = ["--title".freeze, "ConstConf - Clean DSL for config settings with validation and Rails integration".freeze, "--main".freeze, "README.md".freeze]
-  s.required_ruby_version = Gem::Requirement.new("= 3.2".freeze)
+  s.required_ruby_version = Gem::Requirement.new("~> 3.2".freeze)
   s.rubygems_version = "3.6.9".freeze
   s.summary = "Clean DSL for config settings with validation and Rails integration".freeze
   s.test_files = ["spec/const_conf/dir_plugin_spec.rb".freeze, "spec/const_conf/env_dir_extension_spec.rb".freeze, "spec/const_conf/file_plugin_spec.rb".freeze, "spec/const_conf/json_plugin_spec.rb".freeze, "spec/const_conf/setting_accessor_spec.rb".freeze, "spec/const_conf/setting_spec.rb".freeze, "spec/const_conf/tree_spec.rb".freeze, "spec/const_conf/yaml_plugin_spec.rb".freeze, "spec/const_conf_spec.rb".freeze, "spec/spec_helper.rb".freeze]

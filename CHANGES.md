@@ -1,6 +1,6 @@
 # Changes
 
-## 2025-09-18 v0.3.0
+## 2025-09-18 v0.3.1
 
 - Replaced `require 'rails'` with `require 'active_support/all'` to reduce
   dependency size
