@@ -1,5 +1,24 @@
 # Changes
 
+## 2025-09-18 v0.3.0
+
+- Replaced `require 'rails'` with `require 'active_support/all'` to reduce
+  dependency size
+- Updated `tins` dependency from version **1.42** to **1.43**
+- Updated `complex_config` dependency from version **0.22** to **0.23**
+- Updated development dependencies: `context_spook` from **0.3** to **0.4**,
+  `all_images` from **0.6** to **0.8**, and `simplecov` from **0.22** to
+  **0.23**
+- Added required Ruby version constraint of **= 3.2**
+- Replaced `it` with `_1` in block parameters for Ruby **3.2** compatibility
+- Updated Dockerfile to install `bundler` and `gem_hadar` gems directly
+- Changed test command from `rake test` to `rake spec`
+- Added `fail_fast: true` to CI configuration
+- Added support for Ruby **3.3** and **3.2** Alpine images in CI pipeline
+- Fixed prefix computation in nested modules with
+- Added `color:#07f` to all diagram node style definitions in `README.md` to
+  improve text visibility on colored backgrounds
+
 ## 2025-09-13 v0.2.2
 
 - Simplified ignore patterns in `Rakefile` by changing `*.contexts/*` to
