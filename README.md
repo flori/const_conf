@@ -3,6 +3,10 @@
 **ConstConf**: A robust, thread-safe configuration management library for Ruby
 applications.
 
+## Documentation
+
+Complete API documentation is available at: [GitHub.io](https://flori.github.io/const_conf/)
+
 ## Description
 
 ConstConf provides a clean DSL for defining configuration settings with

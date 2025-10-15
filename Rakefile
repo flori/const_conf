@@ -18,8 +18,12 @@ GemHadar do
   ignore      '.*.sw[pon]', 'pkg', 'Gemfile.lock', '.AppleDouble', '.bundle',
     '.yardoc', 'doc', 'tags', 'coverage', 'cscope.out', '.starscope.db'
   package_ignore '.all_images.yml', '.gitignore', 'VERSION', '.utilsrc',
-    '.contexts'
+    '.contexts', '.github'
   readme      'README.md'
+
+  github_workflows(
+    'static.yml' => {}
+  )
 
   required_ruby_version '~> 3.2'
 
