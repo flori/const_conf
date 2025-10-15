@@ -1,5 +1,22 @@
 # Changes
 
+## 2025-10-15 v0.4.1
+
+- Added `.github/workflows/static.yml` to deploy static content to GitHub Pages
+- Updated `README.md` to include link to GitHub.io documentation
+- Modified `Rakefile` to ignore `.github` directory and add GitHub workflows
+  configuration
+- Configured workflow to use Ruby **3.4** and generate documentation using
+  `rake doc`
+- Added workflow dispatch support for manual triggering
+- Configured permissions for pages deployment with read/write access to
+  contents and pages
+- Set concurrency to prevent multiple deployments while allowing in-progress
+  ones to complete
+- Updated `gem_hadar` development dependency from version **2.6** to **2.8**
+- The gemspec file reflects the updated dependency version for `gem_hadar`
+- The dockerfile now includes `openssl-dev` in the apk add command
+
 ## 2025-09-18 v0.4.0
 
 - Improved handling of configuration files with trailing whitespace:
