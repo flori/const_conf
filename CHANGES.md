@@ -1,5 +1,10 @@
 # Changes
 
+## 2025-10-29 v0.4.2
+
+- Added `require 'pathname'` to include the Pathname library
+- Enables path manipulation functionality in the constant configuration
+
 ## 2025-10-15 v0.4.1
 
 - Added `.github/workflows/static.yml` to deploy static content to GitHub Pages
