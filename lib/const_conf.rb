@@ -1,3 +1,4 @@
+require 'pathname'
 require 'tins/xt'
 require 'active_support/all'
 
