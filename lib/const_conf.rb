@@ -1,5 +1,6 @@
 require 'pathname'
 require 'tins/xt'
+require 'term/ansicolor'
 require 'active_support/all'
 
 # A configuration management module that provides environment variable-based
