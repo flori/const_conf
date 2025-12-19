@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-# stub: const_conf 0.4.3 ruby lib
+# stub: const_conf 0.5.0 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "const_conf".freeze
-  s.version = "0.4.3".freeze
+  s.version = "0.5.0".freeze
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
