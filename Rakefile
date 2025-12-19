@@ -25,7 +25,7 @@ GemHadar do
     'static.yml' => {}
   )
 
-  required_ruby_version '~> 3.2'
+  required_ruby_version '>= 3.2'
 
   dependency 'tins',           '~> 1.43'
   dependency 'json',           '~> 2.0'
