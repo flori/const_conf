@@ -1,5 +1,20 @@
 # Changes
 
+## 2025-12-19 v0.5.0
+
+- Added `ruby:4.0-rc-alpine` image to test matrix in `.all_images.yml`
+- Updated `bundle update` command to `bundle update --all` in `.all_images.yml`
+- Changed required ruby version from `~> 3.2` to `>= 3.2` in `Rakefile`
+- Updated required ruby version from `~> 3.2` to `>= 3.2` in `const_conf.gemspec`
+- Updated `rubygems` version from **3.7.2** to **4.0.2** in `const_conf.gemspec`
+- Updated `gem_hadar` development dependency from **2.8** to **2.10** in `const_conf.gemspec`
+
+## 2025-10-30 v0.4.3
+
+- Added `term/ansicolor` gem for colored terminal output
+  - Added `require 'term/ansicolor'` to enable ANSI color support
+  - Enables colorized console output in configuration management
+
 ## 2025-10-29 v0.4.2
 
 - Added `require 'pathname'` to include the Pathname library
