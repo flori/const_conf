@@ -247,8 +247,6 @@ class ConstConf::Setting
   def configured_value
     if ignored
       nil
-    elsif env_var.nil?
-      nil
     else
       env_var
     end
