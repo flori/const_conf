@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT".freeze]
   s.rdoc_options = ["--title".freeze, "ConstConf - Clean DSL for config settings with validation and Rails integration".freeze, "--main".freeze, "README.md".freeze]
   s.required_ruby_version = Gem::Requirement.new(">= 3.2".freeze)
-  s.rubygems_version = "4.0.2".freeze
+  s.rubygems_version = "4.0.3".freeze
   s.summary = "Clean DSL for config settings with validation and Rails integration".freeze
   s.test_files = ["spec/const_conf/dir_plugin_spec.rb".freeze, "spec/const_conf/env_dir_extension_spec.rb".freeze, "spec/const_conf/file_plugin_spec.rb".freeze, "spec/const_conf/json_plugin_spec.rb".freeze, "spec/const_conf/setting_accessor_spec.rb".freeze, "spec/const_conf/setting_spec.rb".freeze, "spec/const_conf/tree_spec.rb".freeze, "spec/const_conf/yaml_plugin_spec.rb".freeze, "spec/const_conf_spec.rb".freeze, "spec/spec_helper.rb".freeze]
 
