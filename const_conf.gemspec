@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-# stub: const_conf 0.5.0 ruby lib
+# stub: const_conf 0.6.0 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "const_conf".freeze
-  s.version = "0.5.0".freeze
+  s.version = "0.6.0".freeze
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
@@ -23,12 +23,12 @@ Gem::Specification.new do |s|
 
   s.specification_version = 4
 
-  s.add_development_dependency(%q<gem_hadar>.freeze, [">= 2.16.3".freeze])
+  s.add_development_dependency(%q<gem_hadar>.freeze, [">= 2.17.0".freeze])
   s.add_development_dependency(%q<debug>.freeze, [">= 0".freeze])
   s.add_development_dependency(%q<rspec>.freeze, ["~> 3.13".freeze])
   s.add_development_dependency(%q<context_spook>.freeze, ["~> 0.4".freeze])
-  s.add_development_dependency(%q<all_images>.freeze, ["~> 0.8".freeze])
   s.add_development_dependency(%q<simplecov>.freeze, ["~> 0.22".freeze])
+  s.add_development_dependency(%q<all_images>.freeze, [">= 0.12".freeze])
   s.add_runtime_dependency(%q<tins>.freeze, ["~> 1.43".freeze])
   s.add_runtime_dependency(%q<json>.freeze, ["~> 2.0".freeze])
   s.add_runtime_dependency(%q<complex_config>.freeze, ["~> 0.23".freeze])
