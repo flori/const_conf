@@ -256,14 +256,37 @@ describe ConstConf do
             expect(TestConstConf.setting_for('TEST_CONST_CONF_TEST').value).
               to eq 'bar'
           end
+        end
 
-          describe '.view' do
-            it 'renders tree view' do
-              expect(ConstConf::Tree).to receive(:from_const_conf).with(
-                TestConstConf
-              )
-              TestConstConf.view
-            end
+        describe '.view' do
+          it 'renders tree view' do
+            expect(ConstConf::Tree).to receive(:from_const_conf).with(
+              TestConstConf
+            )
+            TestConstConf.view
+          end
+        end
+
+        describe '.documentation' do
+          it 'generates markdown documentation' do
+            doc = TestConstConf.documentation
+            expect(doc).to be_a String
+            expect(doc).to include('## Environment variables')
+            expect(doc).to include('`TEST_CONST_CONF_TEST`')
+            expect(doc).to match(/description.*?test/)
+            expect(doc).to match(/default.*?bar/)
+          end
+
+          it 'writes documentation to IO object' do
+            io = StringIO.new
+            result = TestConstConf.documentation(io: io)
+
+            expect(result).to be_a StringIO
+            doc = io.string
+            expect(doc).to include('## Environment variables')
+            expect(doc).to include('`TEST_CONST_CONF_TEST`')
+            expect(doc).to match(/description.*?test/)
+            expect(doc).to match(/default.*?bar/)
           end
         end
       end

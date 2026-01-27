@@ -424,6 +424,38 @@ module ConstConf
       end
     end
 
+    # Generates documentation for all configuration settings as a Markdown
+    # table
+    #
+    # This method provides a Markdown-formatted list showing all configuration
+    # settings with their environment variable names, descriptions, default
+    # values, and required status. The output is suitable for inclusion in
+    # README files or documentation.
+    #
+    # @param io [IO, nil] the IO object to write the documentation to; if nil, returns a String
+    # @return [String, nil] the Markdown documentation as a string if io is nil, nil otherwise
+    def documentation(io: nil)
+      result = io || +''
+      result << "## Environment variables\n\n"
+
+      env_var_names.map do |env_var_name|
+        setting_for(env_var_name)
+      end.each do |setting|
+        default = if setting.sensitive?
+                    '_redacted_'
+                  elsif setting.default_value.nil?
+                    '_undefined_'
+                  else
+                    "`#{setting.default_value.inspect}`"
+                  end
+        result << " - `#{setting.env_var_name}`\n"
+        result << "   - __description__: #{setting.description}\n"
+        result << "   - __default__: #{default}\n"
+      end
+
+      result
+    end
+
     # Iterates over a configuration module and its nested configurations in a
     # depth-first manner.
     #
