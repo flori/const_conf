@@ -1,5 +1,26 @@
 # Changes
 
+## 2026-01-27 v0.6.0
+
+- Added `documentation` method to `ConstConf` module that generates Markdown
+  documentation
+    - Method supports both string return and IO writing modes via `io:` parameter
+    - Handles sensitive values by redacting them with `_redacted_`
+    - Includes default value handling with `_undefined_` for nil defaults
+    - Method produces output suitable for README files and documentation
+    - Added comprehensive tests for the new `documentation` method
+    - Method integrates with existing `env_var_names` and `setting_for` infrastructure
+    - Supports `ConstConf::Setting` objects with proper description and default value handling
+- Updated CI configuration
+    - Use `bundle exec rake spec` instead of `rake spec`
+    - Added `before` and `after` hooks in CI script to remove `Gemfile.lock` during runs
+    - Added `changelog` configuration block to specify `CHANGES.md` as the changelog filename
+- Updated `all_images` gem dependency from version **0.8** to **>= 0.12**
+- Updated `gem_hadar` development dependency from **2.16.3** to **2.17.0**
+- Updated Ruby version from 4.0-rc-alpine to 4.0-alpine
+- Updated rubygems version to **4.0.3**
+- Simplified environment variable handling logic
+
 ## 2025-12-19 v0.5.0
 
 - Added `ruby:4.0-rc-alpine` image to test matrix in `.all_images.yml`
