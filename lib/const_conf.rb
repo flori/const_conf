@@ -436,7 +436,7 @@ module ConstConf
     # @return [String, nil] the Markdown documentation as a string if io is nil, nil otherwise
     def documentation(io: nil)
       result = io || +''
-      result << "## Environment variables\n\n"
+      result << "## ConstConf settings via environment variables\n\n"
 
       env_var_names.map do |env_var_name|
         setting_for(env_var_name)
@@ -448,8 +448,9 @@ module ConstConf
                   else
                     "`#{setting.default_value.inspect}`"
                   end
-        result << " - `#{setting.env_var_name}`\n"
+        result << " - `#{setting.name}`\n"
         result << "   - __description__: #{setting.description}\n"
+        result << "   - __variable__: `#{setting.env_var_name}`\n"
         result << "   - __default__: #{default}\n"
       end
 
