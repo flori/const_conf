@@ -1,5 +1,14 @@
 # Changes
 
+## 2026-01-28 v0.7.0
+
+- Updated documentation method to improve ConstConf settings output
+- Changed documentation header from `"Environment variables"` to `"ConstConf
+  settings via environment variables"`
+- Updated setting name display from `env_var_name` to `name` to show full
+  hierarchical names
+- Added `__variable__` field showing actual environment variable names
+
 ## 2026-01-27 v0.6.0
 
 - Added `documentation` method to `ConstConf` module that generates Markdown
