@@ -877,6 +877,58 @@ AppConfig.view
 AppConfig::DATABASE_URL!.view
 ```
 
+## Automating Configuration Documentation
+
+Because `ConstConf` provides a comprehensive visual representation of your
+settings via `.view`, it is highly recommended to export this view to a
+markdown file and commit it to your repository. This ensures that all team
+members have an up-to-date reference of required environment variables without
+needing to run the application.
+
+### 1. Create a Rake Task
+
+First, define a rake task to export the configuration documentation. Replace
+`AppConfig` with the name of your configuration module and choose a destination
+path for the markdown file:
+
+```ruby
+# lib/tasks/doc.rake
+namespace :doc do
+  desc 'Generate ConstConf configuration documentation'
+  task :const_conf do
+    # This assumes AppConfig is your module including ConstConf
+    File.write('config/CONFIG_DOCS.md') do
+      AppConfig.view # or AppConfig.documentation if you have a helper method
+    end
+  end
+end
+```
+
+### 2. Automate with a Git Hook
+
+To ensure the documentation never goes stale, you can use a Git `pre-commit`
+hook to regenerate the file whenever your configuration definition changes.
+
+Add the following to `.git/hooks/pre-commit`:
+
+```bash
+#!/usr/bin/env bash
+
+# Regenerate config docs only if the configuration file changed
+if ! git diff --quiet HEAD -- config/app_config.rb
+then
+  echo "Configuration changed – regenerating documentation..."
+  bundle exec rake doc:const_conf
+  git add config/CONFIG_DOCS.md
+fi
+
+exit 0
+```
+
+This workflow transforms your configuration DSL into a living document,
+significantly reducing onboarding friction for new developers joining the
+project. ✨
+
 ## Download
 
 The homepage of this library is located at
