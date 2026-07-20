@@ -1,5 +1,27 @@
 # Changes
 
+## 2026-07-20 v0.8.0
+
+### Changed
+
+- Enhanced `ConstConf::JSONPlugin` API:
+    - Overloaded `ConstConf::JSONPlugin#json` to function as both a file loader
+      and a decoder factory returning a lambda.
+    - Introduced `ConstConf::JSONPlugin::JSONConfig` to prevent arbitrary class
+      materialization by stripping `'json_class'` during serialization.
+- Updated documentation in `README.md` regarding the dual-mode behavior of
+  `JSONPlugin`.
+- Fixed documentation assertions in `spec/const_conf_spec.rb` for the header
+  `"## ConstConf settings via environment variables"`.
+- Reorganized tests in `spec/const_conf/json_plugin_spec.rb` into file and
+  string contexts to verify the new `#json` API.
+
+### Dependencies
+
+- Updated `simplecov` to **1.0**.
+- Updated `rubygems_version` to **4.0.16**.
+- Updated `gem_hadar` to **2.17.1**.
+
 ## 2026-01-28 v0.7.0
 
 - Updated documentation method to improve ConstConf settings output
