@@ -1,63 +1,120 @@
 require 'spec_helper'
 
 describe ConstConf::JSONPlugin do
-  let(:json_file) { asset('config.json') }
+  context 'with file' do
+    let(:json_file) { asset('config.json') }
 
-  describe '#json' do
-    context 'when file exists' do
-      it 'reads and parses JSON content as a hash' do
-        instance = double('Config').extend(described_class)
-        result = instance.json(json_file)
+    describe '#json' do
+      context 'when file exists' do
+        it 'reads and parses JSON content as a hash' do
+          instance = double('Config').extend(described_class)
+          result = instance.json(json_file)
+          expect(result.hello).to eq 'world'
+        end
+
+        it 'handles JSON with custom object_class' do
+          instance = double('Config').extend(described_class)
+          foobar_class = Class.new(JSON::GenericObject)
+          result = instance.json(json_file, object_class: foobar_class)
+          expect(result).to be_a(foobar_class)
+        end
+      end
+
+      context 'when file does not exist' do
+        let(:nonexistent_file) { asset('nonexistent.json') }
+
+        it 'returns nil when file does not exist and required is false' do
+          instance = double('Config').extend(described_class)
+          result = instance.json(nonexistent_file, required: false)
+          expect(result).to be_nil
+        end
+
+        it 'raises RequiredValueNotConfigured when file is required and does not exist' do
+          instance = double('Config').extend(described_class)
+          expect {
+            instance.json(nonexistent_file, required: true)
+          }.to raise_error(ConstConf::RequiredValueNotConfigured)
+        end
+      end
+
+      context 'with custom configuration module' do
+        before do
+          eval %{
+            if Object.const_defined?(:ConstConfTestModuleWithJSON)
+              Object.send(:remove_const, :ConstConfTestModuleWithJSON)
+            end
+            module ::ConstConfTestModuleWithJSON
+              include ConstConf
+              plugin ConstConf::JSONPlugin
+
+              description 'Module with JSONPlugin'
+
+              CONFIG_VALUE = set do
+                description 'Configuration from JSON file'
+                default json("#{json_file}")
+              end
+            end
+          }
+        end
+
+        it 'can be used in a ConstConf module' do
+          expect(ConstConfTestModuleWithJSON::CONFIG_VALUE.hello).to eq 'world'
+        end
+      end
+    end
+  end
+
+  context 'with string frome env var' do
+    describe '#json' do
+      let(:instance) { double('Config').extend(described_class) }
+
+      it 'returns a lambda that parses JSON strings into JSONConfig objects' do
+        decoder = instance.json
+        expect(decoder).to be_a Proc
+
+        json_string = '{"hello": "world"}'
+        result = decoder.(json_string)
+
+        expect(result).to be_a ConstConf::JSONPlugin::JSONConfig
         expect(result.hello).to eq 'world'
       end
 
-      it 'handles JSON with custom object_class' do
-        instance = double('Config').extend(described_class)
-        foobar_class = Class.new(JSON::GenericObject)
-        result = instance.json(json_file, object_class: foobar_class)
-        expect(result).to be_a(foobar_class)
-      end
-    end
-
-    context 'when file does not exist' do
-      let(:nonexistent_file) { asset('nonexistent.json') }
-
-      it 'returns nil when file does not exist and required is false' do
-        instance = double('Config').extend(described_class)
-        result = instance.json(nonexistent_file, required: false)
-        expect(result).to be_nil
+      it 'returns nil when the input value is nil' do
+        decoder = instance.json
+        expect(decoder.(nil)).to be_nil
       end
 
-      it 'raises RequiredValueNotConfigured when file is required and does not exist' do
-        instance = double('Config').extend(described_class)
-        expect {
-          instance.json(nonexistent_file, required: true)
-        }.to raise_error(ConstConf::RequiredValueNotConfigured)
-      end
-    end
-
-    context 'with custom configuration module' do
-      before do
-        eval %{
-          if Object.const_defined?(:ConstConfTestModuleWithJSON)
-            Object.send(:remove_const, :ConstConfTestModuleWithJSON)
+      context 'integration with ConstConf settings' do
+        let :build_config do
+          eval %{
+          if Object.const_defined?(:ConstConfTestModuleWithJSONDecode)
+            Object.send(:remove_const, :ConstConfTestModuleWithJSONDecode)
           end
-          module ::ConstConfTestModuleWithJSON
+          module ::ConstConfTestModuleWithJSONDecode
             include ConstConf
             plugin ConstConf::JSONPlugin
+            prefix 'TEST'
+            description 'Test module for JSON decode'
 
-            description 'Module with JSONPlugin'
-
-            CONFIG_VALUE = set do
-              description 'Configuration from JSON file'
-              default json("#{json_file}")
+            JSON_SETTING = set do
+              description 'Setting decoded from JSON string'
+              default '{"foo": "bar"}'
+              decode json
             end
           end
-        }
-      end
+          }
+        end
 
-      it 'can be used in a ConstConf module' do
-        expect(ConstConfTestModuleWithJSON::CONFIG_VALUE.hello).to eq 'world'
+        it 'handles default JSON strings' do
+          build_config
+          expect(ConstConfTestModuleWithJSONDecode::JSON_SETTING.foo).to eq 'bar'
+        end
+
+        it 'handles environment variable overrides with JSON strings' do
+          ENV['TEST_JSON_SETTING'] = '{"foo": "env_value"}'
+          build_config
+          expect(ConstConfTestModuleWithJSONDecode::JSON_SETTING.foo).to eq 'env_value'
+        end
       end
     end
   end

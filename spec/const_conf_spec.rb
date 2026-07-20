@@ -271,7 +271,7 @@ describe ConstConf do
           it 'generates markdown documentation' do
             doc = TestConstConf.documentation
             expect(doc).to be_a String
-            expect(doc).to include('## Environment variables')
+            expect(doc).to include('## ConstConf settings via environment variables')
             expect(doc).to include('`TEST_CONST_CONF_TEST`')
             expect(doc).to match(/description.*?test/)
             expect(doc).to match(/default.*?bar/)
@@ -283,7 +283,7 @@ describe ConstConf do
 
             expect(result).to be_a StringIO
             doc = io.string
-            expect(doc).to include('## Environment variables')
+            expect(doc).to include('## ConstConf settings via environment variables')
             expect(doc).to include('`TEST_CONST_CONF_TEST`')
             expect(doc).to match(/description.*?test/)
             expect(doc).to match(/default.*?bar/)

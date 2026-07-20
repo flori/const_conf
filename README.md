@@ -290,16 +290,22 @@ end
 
 #### JSONPlugin
 
-Enables JSON-based configuration through the `json()` method:
+Enables JSON-based configuration through the `json()` method, which acts as
+both a file loader and a decoding factory.
 
 ```ruby
 CONFIG = set do
+  description 'JSON Configuration'
+  # Load from a JSON file as default
   default json('config.json')
-  # or with custom object class:
-  # default json('config.json', object_class: MyCustomClass)
-  …
+  
+  # Decode an environment variable JSON string into a stable object
+  decode json
 end
 ```
+
+The `json` method uses a custom `JSONConfig` class to ensure stability and
+prevent arbitrary Ruby class instantiation during deserialization.
 
 #### YAMLPlugin
 
