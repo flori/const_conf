@@ -1,5 +1,16 @@
 # Changes
 
+## 2026-08-04 v0.8.1
+
+### Changed
+
+- Updated `rubygems_version` to **4.0.17** and `gem_hadar` requirement to `>=
+  **2.18.0**` in `const_conf.gemspec`.
+- Improved the JSON decoder lambda in `lib/const_conf/json_plugin.rb` by
+  replacing `nil?` with `blank?` to handle empty strings.
+- Added test cases in `spec/const_conf/json_plugin_spec.rb` to ensure that
+  empty and whitespace-only inputs return `nil`.
+
 ## 2026-07-20 v0.8.0
 
 ### Changed
