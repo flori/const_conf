@@ -54,7 +54,7 @@ module ConstConf::JSONPlugin
           "JSON file required at path #{path.to_s.inspect}"
       end
     else
-      -> value { JSON.parse(value, object_class:) unless value.nil? }
+      -> value { JSON.parse(value, object_class:) unless value.blank? }
     end
   end
 end

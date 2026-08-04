@@ -84,6 +84,16 @@ describe ConstConf::JSONPlugin do
         expect(decoder.(nil)).to be_nil
       end
 
+      it 'returns nil when the input value is ""' do
+        decoder = instance.json
+        expect(decoder.("")).to be_nil
+      end
+
+      it 'returns nil when the input value is blank' do
+        decoder = instance.json
+        expect(decoder.("\t\n ")).to be_nil
+      end
+
       context 'integration with ConstConf settings' do
         let :build_config do
           eval %{
