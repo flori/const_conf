@@ -300,8 +300,10 @@ class ConstConf::Setting
   #
   # @raise [ ConstConf::RequiredDescriptionNotConfigured ] if the setting's description
   #   is blank or the parent module's description is missing
-  # @raise [ ConstConf::RequiredValueNotConfigured ] if the setting is required but no
-  #   value is provided
+  # @raise [ ConstConf::RequiredValueNotConfigured ] if the setting is required
+  #   but no non-nil value is provided. Note that blank values (e.g. `""` or
+  #   `"   "`) satisfy this check; use {#check} or a Proc-based {#required}
+  #   to also reject them.
   # @raise [ ConstConf::SettingCheckFailed ] if the setting's check fails
   def confirm!
     if parent_namespace.is_a?(Module) && parent_namespace < ConstConf

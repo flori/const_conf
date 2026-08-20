@@ -366,6 +366,10 @@ functionality.
 - **Usage**: `required true` (always required) or `required { !Rails.env.test?
   }` (conditional)
 - **Indicator**: Shows 🔴 in view output when required and not satisfied
+- **Note**: `required true` only guards against `nil`. A blank string like
+  `""` will pass `confirm!` but cause the `?` predicate to return `nil`.
+  Use `check { value.present? }` or `required ->(v) { v.present? }` if you
+  need non-blank validation.
 
 #### **Configured** (`configured?`)
 
