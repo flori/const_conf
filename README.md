@@ -99,8 +99,18 @@ end
 
 ### Note that **Predicate Methods (`?`)** are defined
 
-If a setting is `active?`, the predicate method returns a truthy value, which
-then can be used like this:
+For each setting, ConstConf defines a deliberate pair:
+
+- **`FOO::BAR`** — the constant. Holds the resolved value from `ENV` or
+  `default`. Always returns whatever was configured (or `nil`). This is
+  what the environment variable *is*.
+- **`FOO::BAR?`** — the predicate. Returns the value *only if* `active?`
+  is true; otherwise returns `nil`. This is what your code is *allowed to
+  use*.
+
+They share the same name because they share the same source. The predicate
+is an opt-in gate on the constant, letting you evaluate the configuration
+conditionally:
 
 ```ruby
 # Check if active?
@@ -111,7 +121,8 @@ else
 end
 ```
 
-Or `nil` is returned, which can then be handled accordingly.
+When `active?` is false (value is `nil` or blank under the default
+`:present?` activation), the predicate short-circuits to `nil`.
 
 ### Note that **Getter Methods (`!`)** are also defined
 
@@ -389,6 +400,9 @@ functionality.
   - **☑️** = No custom check defined (passes by default - `:unchecked_true`)
   - **✅** = Custom check explicitly passes (returns `true`)
   - **❌** = Custom check explicitly fails (returns `false`)
+- **Note**: `checked?` is evaluated unconditionally in `confirm!`, even
+  when no value is supplied. If your check should pass for absent values,
+  guard with `value.nil? ||`.
 
 #### **Active** (`active?`)
 
@@ -412,6 +426,42 @@ functionality.
 These concepts work together to provide a comprehensive configuration
 management system that tracks the complete lifecycle and status of each setting
 from definition through validation and usage.
+
+### How concepts compose
+
+`FOO::BAR?` is defined as `(setting.value if setting.active?)`. So it returns
+a truthy value only when `active?` is true *and* `value` is truthy. With the
+default `activated` of `:present?`, that means the resolved value must be
+non-nil and non-blank.
+
+This is a different question from `confirm!`. At definition time, `confirm!`
+asks: "did you supply a non-nil value?" (`required` + `value_provided?`).
+At usage time, `FOO::BAR?` asks: "is this value actually usable?" (`active?`).
+A setting can pass `confirm!` (value exists) yet `FOO::BAR?` still returns
+`nil` (value is blank). These are independent axes, not redundant ones.
+
+For example:
+
+```ruby
+module FOO
+  include ConstConf
+  description 'Foo config'
+
+  BAR = set do
+    description 'A bar setting'
+    required true
+  end
+end
+```
+
+| Scenario | `confirm!` | `FOO::BAR` | `FOO::BAR?` |
+|---|---|---|---|
+| `ENV['FOO_BAR']` unset | ❌ raises `RequiredValueNotConfigured` | — | — |
+| `ENV['FOO_BAR'] = ""` | ✅ passes (non-nil) | `""` | `nil` (blank → not active) |
+| `ENV['FOO_BAR'] = "hello"` | ✅ passes | `"hello"` | `"hello"` |
+
+This shows how `required`, `check`, and `active?` each guard a different
+aspect: existence, validity, and usability.
 
 ### Advanced Usage Examples
 
