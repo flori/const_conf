@@ -92,20 +92,32 @@ class ConstConf::Setting
   # validate that a setting meets certain criteria beyond basic required and
   # default value checks. The check can be a Proc that evaluates to true,
   # :unchecked_true (truthy), or false, allowing for custom validation logic. It
-  # deffaults to true, if not set otherwise.
+  # defaults to true, if not set otherwise.
   #
   # @return [Proc, Object] the current check configuration value
   setting_accessor :check, -> setting { :unchecked_true }
 
   # Checks if the configuration setting passes its validation check.
   #
+  # The check block is evaluated via {#instance_eval} in the context of this
+  # Setting instance, so bare method calls (e.g. `value`, `configured?`)
+  # resolve to this setting. Standard Ruby `instance_eval` arity rules apply:
+  #
+  # - **Arity 0**: The block runs with `self` set to this Setting instance
+  #   and receives no arguments. Access setting properties directly:
+  #   `check { value.blank? || value.scheme == 'redis' }`
+  #
+  # - **Arity 1**: The block receives this Setting instance as its sole
+  #   argument as well. Use it when you prefer explicit receiver access:
+  #   `check ->(s) { s.value.blank? || s.value.scheme == 'redis' }`
+  #
   # Note: {#checked?} is evaluated unconditionally in {#confirm!}, even when
   # no value is supplied. If your check should pass for absent values, guard
-  # with `value.nil? ||`.
+  # with `value.blank? ||`.
   #
   # @return [Boolean, Symbol] true if the setting's check logic evaluates to
-  # true, # false or false if not. I no check was defined, returns
-  # :unchecked_true. @see check
+  #   true, false if not. If no check was defined, returns
+  #   :unchecked_true. @see check
   def checked?
     instance_eval(&check)
   end
@@ -128,8 +140,8 @@ class ConstConf::Setting
   #     * With arity 0: Called without arguments (e.g., `-> {
   #     some_value.present? }`)
   # @return [Boolean, Proc] returns the value that was set
-  # @method required(value = nil, &block)
-  # @see #required?
+  #   @method required(value = nil, &block)
+  #   @see #required?
   setting_accessor :required, false
 
   # Checks if the setting has a required value configured or as a default
@@ -155,10 +167,13 @@ class ConstConf::Setting
       end
   end
 
-  # Checks if the setting has a required value configured.
+  # Sets or retrieves the sensitive flag for the configuration setting.
   #
-  # @return [Boolean] true if the setting is marked as required and has a valid
-  # value, false otherwise
+  # When true, the setting's value is masked as 🤫 in the {#view} output
+  # to protect confidential data such as passwords, API keys, and tokens.
+  #
+  # @param value [Boolean] true to mark the setting as sensitive
+  # @return [Boolean] the current sensitivity flag
   setting_accessor :sensitive, false
 
   alias sensitive? sensitive
