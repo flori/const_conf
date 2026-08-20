@@ -1,5 +1,33 @@
 # Changes
 
+## 2026-08-20 v0.8.2
+
+*   Documented block calling contexts for `decode`, `required`, and `check` in
+    the README, clarifying differences between plain `Proc` calls and
+    `instance_eval` within the `Setting` context.
+*   Improved test result feedback by adding emoji-based status messages and
+    descriptive cleanup steps, including conditional checks using the `RESULT`
+    variable and cleaner file deletion commands.
+*   Updated setting validation documentation to clarify `instance_eval` arity
+    rules for the `check` block, fixed typos in `required?` and `sensitive`
+    accessor descriptions, and clarified that `sensitive` masks values in
+    `view` output.
+*   Corrected guidance for guarding absent values to use `value.blank?` instead
+    of `value.nil?`.
+*   Rewrote the `?` predicate section in the README to explain the `FOO::BAR`
+    (constant) and `FOO::BAR?` (predicate) access pattern, and added a "How
+    concepts compose" section with a scenario table for `confirm!`, constants,
+    and predicates.
+*   Fixed a typo in the README truthy value description, correcting "truty" to
+    `truthy`.
+*   Added a YARD note to `ConstConf::Setting#checked?` explaining that it is
+    evaluated unconditionally in `ConstConf::Setting#confirm!`, even when no
+    value is supplied.
+*   Clarified the distinction between `required` and blank values in the
+    README, noting that `required true` only guards against `nil`, and updated
+    the `@raise` YARD doc for `ConstConf::RequiredValueNotConfigured` to
+    explicitly state that blank values satisfy the check.
+
 ## 2026-08-04 v0.8.1
 
 ### Changed
