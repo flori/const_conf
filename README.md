@@ -158,7 +158,7 @@ Key indicators in the view:
 | 🔴  | ⚪  | Required settings that must be configured|
 | 🔧  | ⚪  | Configured values from ENV |
 | 🙈  | ⚪  | ENV var was ignored |
-| 🟢  | ⚪  | Setting is active (? method returns truty value) |
+| 🟢  | ⚪  | Setting is active (? method returns truthy value) |
 | ⚙️   | ⚪  | Decoding logic applied to transform raw input |
 | ✅  ┊ ☑️   | ❌ | Validation checks have passed or failed |
 
