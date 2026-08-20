@@ -368,6 +368,10 @@ functionality.
 - **Usage**: `decode(&:chomp)` removes whitespace, `decode { YAML.load(it) }`
   parses YAML
 - **Indicator**: Shows ⚙️ in view output when active
+- **Block context**: Unlike `check`, the decode block is called as a plain
+  Proc (`decode.(raw_value)`). The block receives the raw (pre-decode) value
+  from the environment variable or default. Use `it` or a block parameter to
+  access the value.
 
 #### **Required** (`required?`)
 
@@ -381,6 +385,10 @@ functionality.
   `""` will pass `confirm!` but cause the `?` predicate to return `nil`.
   Use `check { value.present? }` or `required ->(v) { v.present? }` if you
   need non-blank validation.
+- **Block context**: A Proc-based `required` is called with the raw
+  (pre-decode) value when arity is 1: `required ->(v) { v.present? }`.
+  An arity-0 Proc runs without arguments:
+  `required { !Rails.env.test? }`.
 
 #### **Configured** (`configured?`)
 
@@ -403,6 +411,10 @@ functionality.
 - **Note**: `checked?` is evaluated unconditionally in `confirm!`, even
   when no value is supplied. If your check should pass for absent values,
   guard with `value.nil? ||`.
+- **Block context**: The check block is evaluated via `instance_eval` in the
+  Setting's context, so bare method calls like `value` and `configured?`
+  resolve to this setting. An arity-1 block (`->(s) { ... }`) also receives
+  the Setting instance as its argument.
 
 #### **Active** (`active?`)
 
