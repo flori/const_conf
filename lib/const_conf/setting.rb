@@ -99,6 +99,10 @@ class ConstConf::Setting
 
   # Checks if the configuration setting passes its validation check.
   #
+  # Note: {#checked?} is evaluated unconditionally in {#confirm!}, even when
+  # no value is supplied. If your check should pass for absent values, guard
+  # with `value.nil? ||`.
+  #
   # @return [Boolean, Symbol] true if the setting's check logic evaluates to
   # true, # false or false if not. I no check was defined, returns
   # :unchecked_true. @see check
