@@ -1,5 +1,14 @@
 # Changes
 
+## 2026-10-01 v0.9.0
+
+*   Add `pager:` keyword argument to `ConstConf.view` and `Setting#view`,
+    allowing callers to override the pager command used for long output;
+    defaults to `ENV['PAGER']` or `less -r`
+*   Add YARD `@param pager` documentation to both `view` methods
+*   Add spec verifying that a custom `pager:` string is passed through to
+    `IO.popen`
+
 ## 2026-08-20 v0.8.2
 
 *   Documented block calling contexts for `decode`, `required`, and `check` in
