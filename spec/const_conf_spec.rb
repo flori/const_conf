@@ -265,6 +265,12 @@ describe ConstConf do
             )
             TestConstConf.view
           end
+
+          it 'passes custom pager to IO.popen' do
+            allow(Tins::Terminal).to receive(:lines).and_return(0)
+            expect(IO).to receive(:popen).with('my-custom-pager', ?w)
+            TestConstConf.view(pager: 'my-custom-pager')
+          end
         end
 
         describe '.documentation' do

@@ -353,8 +353,11 @@ class ConstConf::Setting
   # standard output.
   #
   # @param io [IO, nil] the IO object to write the output to; if nil, uses STDOUT
-  def view(io: nil)
-    parent_namespace.view(object: self, io:)
+  # @param pager [String, nil] the pager command to use when output exceeds
+  # terminal height; if nil, falls back to the PAGER environment variable or
+  # `less -r`
+  def view(io: nil, pager: nil)
+    parent_namespace.view(object: self, io:, pager:)
   end
 
   # Returns the string representation of the tree structure.

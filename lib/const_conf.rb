@@ -410,14 +410,17 @@ module ConstConf
     # @param object [Object] the ConstConf module or setting to display
     # @param io [IO, nil] the IO object to write the output to; if nil, uses
     # STDOUT
-    def view(object: self, io: nil)
+    # @param pager [String, nil] the pager command for long output; if nil,
+    #   falls back to the `PAGER` environment variable or `less -r`
+    def view(object: self, io: nil, pager: nil)
+      pager ||= ENV.fetch('PAGER', 'less -r')
       output = ConstConf::Tree.from_const_conf(object).to_a
       if io
         io.puts output
       elsif output.size < Tins::Terminal.lines
         STDOUT.puts output
       else
-        IO.popen(ENV.fetch('PAGER', 'less -r'), ?w) do |f|
+        IO.popen(pager, ?w) do |f|
           f.puts output
           f.close_write
         end
