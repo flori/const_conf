@@ -1,5 +1,3 @@
-# vim: set filetype=ruby et sw=2 ts=2:
-
 require 'gem_hadar'
 
 GemHadar do
@@ -32,7 +30,7 @@ GemHadar do
   required_ruby_version '>= 3.2'
 
   dependency 'tins',           '~> 1.43'
-  dependency 'json',           '~> 2.0'
+  dependency 'json',           '>= 2.0', '< 4'
   dependency 'complex_config', '~> 0.23'
   dependency 'activesupport',  '~> 8'
   development_dependency 'debug'
