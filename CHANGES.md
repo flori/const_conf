@@ -1,5 +1,30 @@
 # Changes
 
+## 2026-11-18 v0.10.0
+
+### Improvements
+
+- Relaxed the `json` runtime dependency constraint from `~> 2.0` to `>= 2.0`,
+  `< 4` to allow compatibility with `json` 3.x.
+- Removed Vim modeline comments from `Gemfile` and `Rakefile`.
+
+### Build & CI
+
+- Bumped the `gem_hadar` development dependency requirement to `>= 2.24.1`.
+- Updated `rubygems_version` to **4.0.24**.
+
+### Documentation
+
+- Refactored `.contexts/yard.md` to define the AI's role as generating only
+  YARD documentation comments.
+- Introduced a comprehensive `Document` class example demonstrating usage of
+  `@example`, `@!attribute`, `@param`, `@option`, `@yieldparam`,
+  `@yieldreturn`, `@overload`, `@deprecated`, and `@see` tags.
+- Established key rules prohibiting executable code and `@return [void]`
+  clauses.
+- Replaced previous cheatsheet sections for modules, classes, methods, and
+  blocks with structured documentation responsibilities.
+
 ## 2026-10-01 v0.9.0
 
 *   Add `pager:` keyword argument to `ConstConf.view` and `Setting#view`,
