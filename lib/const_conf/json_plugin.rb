@@ -1,4 +1,4 @@
-require 'json'
+require 'json/generic_object'
 
 # A module that provides functionality for loading JSON files or parsing
 # JSON strings as configuration values.

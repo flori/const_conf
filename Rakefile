@@ -29,13 +29,14 @@ GemHadar do
 
   required_ruby_version '>= 3.2'
 
-  dependency 'tins',           '~> 1.43'
-  dependency 'json',           '>= 2.0', '< 4'
-  dependency 'complex_config', '~> 0.23'
-  dependency 'activesupport',  '~> 8'
+  dependency 'tins',               '~> 1.43'
+  dependency 'json',               '>= 2.0', '< 4'
+  dependency 'json-generic_object'
+  dependency 'complex_config',     '~> 0.23'
+  dependency 'activesupport',      '~> 8'
   development_dependency 'debug'
   development_dependency 'rspec',         '~> 3.13'
-  development_dependency 'context_spook', '~> 0.4'
+  development_dependency 'context_spook', '~> 1.8'
   development_dependency 'simplecov',     '~> 1.0'
   development_dependency 'all_images',    '>= 0.12'
 
