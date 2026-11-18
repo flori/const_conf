@@ -1,5 +1,18 @@
 # Changes
 
+## 2026-11-18 v0.11.0
+
+### Improvements
+
+- Replaced `require 'json'` with `require 'json/generic_object'` in
+  `JSONPlugin` to ensure `JSON::GenericObject` is available for the
+  `JSONConfig` inheritance chain.
+
+### Build & CI
+
+- Added `json-generic_object` as a runtime dependency.
+- Bumped `context_spook` development dependency from `~> 0.4` to `~> 1.8`.
+
 ## 2026-11-18 v0.10.0
 
 ### Improvements
