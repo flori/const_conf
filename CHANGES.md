@@ -3,251 +3,305 @@
 ## 2026-11-18 v0.11.0
 
 ### Improvements
-
 - Replaced `require 'json'` with `require 'json/generic_object'` in
   `JSONPlugin` to ensure `JSON::GenericObject` is available for the
   `JSONConfig` inheritance chain.
 
 ### Build & CI
-
 - Added `json-generic_object` as a runtime dependency.
-- Bumped `context_spook` development dependency from `~> 0.4` to `~> 1.8`.
+- Updated `context_spook` development dependency from `~> 0.4` to
+  `~> 1.8`.
 
 ## 2026-11-18 v0.10.0
 
 ### Improvements
-
-- Relaxed the `json` runtime dependency constraint from `~> 2.0` to `>= 2.0`,
-  `< 4` to allow compatibility with `json` 3.x.
+- Relaxed the `json` runtime dependency constraint from `~> 2.0` to
+  `>= 2.0`, `< 4` to allow compatibility with `json` 3.x.
 - Removed Vim modeline comments from `Gemfile` and `Rakefile`.
 
 ### Build & CI
-
-- Bumped the `gem_hadar` development dependency requirement to `>= 2.24.1`.
-- Updated `rubygems_version` to **4.0.24**.
+- Bumped the `gem_hadar` development dependency requirement to
+  `>= 2.24.1`.
 
 ### Documentation
-
-- Refactored `.contexts/yard.md` to define the AI's role as generating only
-  YARD documentation comments.
-- Introduced a comprehensive `Document` class example demonstrating usage of
-  `@example`, `@!attribute`, `@param`, `@option`, `@yieldparam`,
+- Refactored `.contexts/yard.md` to define the AI's role as generating
+  only YARD documentation comments.
+- Introduced a comprehensive `Document` class example demonstrating usage
+  of `@example`, `@!attribute`, `@param`, `@option`, `@yieldparam`,
   `@yieldreturn`, `@overload`, `@deprecated`, and `@see` tags.
 - Established key rules prohibiting executable code and `@return [void]`
   clauses.
-- Replaced previous cheatsheet sections for modules, classes, methods, and
-  blocks with structured documentation responsibilities.
+- Replaced previous cheatsheet sections for modules, classes, methods,
+  and blocks with structured documentation responsibilities.
 
 ## 2026-10-01 v0.9.0
 
-*   Add `pager:` keyword argument to `ConstConf.view` and `Setting#view`,
-    allowing callers to override the pager command used for long output;
-    defaults to `ENV['PAGER']` or `less -r`
-*   Add YARD `@param pager` documentation to both `view` methods
-*   Add spec verifying that a custom `pager:` string is passed through to
-    `IO.popen`
+### Features
+- Add `pager:` keyword argument to `ConstConf.view` and
+  `Setting#view`, allowing callers to override the pager command
+  for long output; defaults to `ENV['PAGER']` or `less -r`
+
+### Documentation
+- Add YARD `@param pager` documentation to both `view` methods
+
+### Testing
+- Add spec verifying that a custom `pager:` string is passed
+  through to `IO.popen`
 
 ## 2026-08-20 v0.8.2
 
-*   Documented block calling contexts for `decode`, `required`, and `check` in
-    the README, clarifying differences between plain `Proc` calls and
-    `instance_eval` within the `Setting` context.
-*   Improved test result feedback by adding emoji-based status messages and
-    descriptive cleanup steps, including conditional checks using the `RESULT`
-    variable and cleaner file deletion commands.
-*   Updated setting validation documentation to clarify `instance_eval` arity
-    rules for the `check` block, fixed typos in `required?` and `sensitive`
-    accessor descriptions, and clarified that `sensitive` masks values in
-    `view` output.
-*   Corrected guidance for guarding absent values to use `value.blank?` instead
-    of `value.nil?`.
-*   Rewrote the `?` predicate section in the README to explain the `FOO::BAR`
-    (constant) and `FOO::BAR?` (predicate) access pattern, and added a "How
-    concepts compose" section with a scenario table for `confirm!`, constants,
-    and predicates.
-*   Fixed a typo in the README truthy value description, correcting "truty" to
-    `truthy`.
-*   Added a YARD note to `ConstConf::Setting#checked?` explaining that it is
-    evaluated unconditionally in `ConstConf::Setting#confirm!`, even when no
-    value is supplied.
-*   Clarified the distinction between `required` and blank values in the
-    README, noting that `required true` only guards against `nil`, and updated
-    the `@raise` YARD doc for `ConstConf::RequiredValueNotConfigured` to
-    explicitly state that blank values satisfy the check.
+### Documentation
+- Documented block calling contexts for `decode`, `required`, and
+  `check` in the README, clarifying `Proc` calls versus
+  `instance_eval`.
+- Added a YARD note to `ConstConf::Setting#checked?` explaining
+  unconditional evaluation in `ConstConf::Setting#confirm!`.
+- Updated YARD documentation for `ConstConf::Setting#check` to clarify
+  `instance_eval` arity rules and correct typos.
+- Rewrote the `?` predicate section to explain the `FOO::BAR`
+  constant and `FOO::BAR?` predicate access pattern.
+- Added a "How concepts compose" section with a scenario table for
+  `confirm!`, constants, and predicates.
+- Clarified the distinction between `required` and blank values in
+  the README and `ConstConf::Setting#confirm!` documentation.
+- Corrected guidance for guarding absent values to use
+  `value.blank?` instead of `value.nil?`.
+- Fixed a typo in the README truthy value description.
+- Clarified that `sensitive` masks values in `view` output.
+
+### Build & CI
+- Added emoji-based status messages and descriptive cleanup steps to
+  test scripts.
 
 ## 2026-08-04 v0.8.1
 
-### Changed
+### Fixes
+- Replaced the `nil?` check with `blank?` in `lib/const_conf/json_plugin.rb`
+  to ensure the JSON decoder correctly handles empty or whitespace-only
+  input strings.
 
-- Updated `rubygems_version` to **4.0.17** and `gem_hadar` requirement to `>=
-  **2.18.0**` in `const_conf.gemspec`.
-- Improved the JSON decoder lambda in `lib/const_conf/json_plugin.rb` by
-  replacing `nil?` with `blank?` to handle empty strings.
-- Added test cases in `spec/const_conf/json_plugin_spec.rb` to ensure that
-  empty and whitespace-only inputs return `nil`.
+### Testing
+- Added test cases in `spec/const_conf/json_plugin_spec.rb` to verify
+  that empty and whitespace-only input values return `nil`.
 
 ## 2026-07-20 v0.8.0
 
-### Changed
+### Breaking
+- `ConstConf::JSONPlugin#json` now requires a path argument to load a file
+  and returns a lambda when called without arguments.
 
-- Enhanced `ConstConf::JSONPlugin` API:
-    - Overloaded `ConstConf::JSONPlugin#json` to function as both a file loader
-      and a decoder factory returning a lambda.
-    - Introduced `ConstConf::JSONPlugin::JSONConfig` to prevent arbitrary class
-      materialization by stripping `'json_class'` during serialization.
-- Updated documentation in `README.md` regarding the dual-mode behavior of
-  `JSONPlugin`.
-- Fixed documentation assertions in `spec/const_conf_spec.rb` for the header
-  `"## ConstConf settings via environment variables"`.
+### Features
+- `ConstConf::JSONPlugin#json` now functions as a decoder factory, returning
+  a lambda for parsing JSON strings from environment variables.
+- Introduced `ConstConf::JSONPlugin::JSONConfig` to prevent arbitrary class
+  materialization by stripping `'json_class'` during serialization.
+
+### Fixes
+- Corrected documentation assertions in `spec/const_conf_spec.rb` to match the
+  updated header `"## ConstConf settings via environment variables"`.
+
+### Improvements
 - Reorganized tests in `spec/const_conf/json_plugin_spec.rb` into file and
   string contexts to verify the new `#json` API.
+- Updated `README.md` to document the dual-mode behavior of `JSONPlugin`.
 
-### Dependencies
+### Build & CI
+- Updated `simplecov` dependency to **1.0**.
+- Updated `gem_hadar` requirement to **2.17.1**.
+- Updated `rubygems_version` to **4.0.16** in `const_conf.gemspec`.
 
-- Updated `simplecov` to **1.0**.
-- Updated `rubygems_version` to **4.0.16**.
-- Updated `gem_hadar` to **2.17.1**.
+### Documentation
+- Added "Automating Configuration Documentation" section to `README.md` with
+  examples for a Rake task and a Git pre-commit hook.
 
 ## 2026-01-28 v0.7.0
 
-- Updated documentation method to improve ConstConf settings output
-- Changed documentation header from `"Environment variables"` to `"ConstConf
-  settings via environment variables"`
-- Updated setting name display from `env_var_name` to `name` to show full
-  hierarchical names
-- Added `__variable__` field showing actual environment variable names
+### Improvements
+- Changed the `documentation` method header to read "ConstConf settings via environment variables"
+- Updated `documentation` to display `name` instead of `env_var_name` for
+  hierarchical setting names
+- Added a `__variable__` field to the `documentation` output showing the
+  actual environment variable names
 
 ## 2026-01-27 v0.6.0
 
-- Added `documentation` method to `ConstConf` module that generates Markdown
-  documentation
-    - Method supports both string return and IO writing modes via `io:` parameter
-    - Handles sensitive values by redacting them with `_redacted_`
-    - Includes default value handling with `_undefined_` for nil defaults
-    - Method produces output suitable for README files and documentation
-    - Added comprehensive tests for the new `documentation` method
-    - Method integrates with existing `env_var_names` and `setting_for` infrastructure
-    - Supports `ConstConf::Setting` objects with proper description and default value handling
-- Updated CI configuration
-    - Use `bundle exec rake spec` instead of `rake spec`
-    - Added `before` and `after` hooks in CI script to remove `Gemfile.lock` during runs
-    - Added `changelog` configuration block to specify `CHANGES.md` as the changelog filename
-- Updated `all_images` gem dependency from version **0.8** to **>= 0.12**
-- Updated `gem_hadar` development dependency from **2.16.3** to **2.17.0**
-- Updated Ruby version from 4.0-rc-alpine to 4.0-alpine
-- Updated rubygems version to **4.0.3**
-- Simplified environment variable handling logic
+### Features
+- Added `documentation` method to the `ConstConf` module that
+  generates Markdown documentation for configuration settings.
+- The new `documentation` method supports both string return and IO
+  writing modes via the `io:` parameter.
+- Sensitive configuration values are redacted as `_redacted_` in the
+  generated documentation output.
+- `nil` default values are displayed as `_undefined_` in the generated
+  documentation output.
+
+### Improvements
+- Simplified the environment variable handling logic in `configured_value`.
+
+### Build & CI
+- Updated the `all_images` development dependency requirement from **0.8**
+  to **>= 0.12**.
+- Updated the `gem_hadar` development dependency requirement from
+  **2.16.3** to **>= 2.17.0**.
+- Updated the CI configuration to use `bundle exec rake spec` and added
+  `before` and `after` hooks to manage `Gemfile.lock`.
+- Updated the Ruby version in the test matrix from `4.0-rc-alpine` to
+  `4.0-alpine`.
+- Added `changelog` configuration to the GemHadar setup to manage
+  `CHANGES.md`.
 
 ## 2025-12-19 v0.5.0
 
-- Added `ruby:4.0-rc-alpine` image to test matrix in `.all_images.yml`
-- Updated `bundle update` command to `bundle update --all` in `.all_images.yml`
-- Changed required ruby version from `~> 3.2` to `>= 3.2` in `Rakefile`
-- Updated required ruby version from `~> 3.2` to `>= 3.2` in `const_conf.gemspec`
-- Updated `rubygems` version from **3.7.2** to **4.0.2** in `const_conf.gemspec`
-- Updated `gem_hadar` development dependency from **2.8** to **2.10** in `const_conf.gemspec`
+### Build & CI
+- Broadened required `ruby` version from `~> 3.2` to `>= 3.2` in
+  `Rakefile` and `const_conf.gemspec`.
+- Updated `rubygems` version in `const_conf.gemspec` from **3.7.2**
+  to **4.0.2**.
+
+### Testing
+- Added `ruby:4.0-rc-alpine` image to the test matrix in
+  `.all_images.yml`.
+- Changed `bundle update` to `bundle update --all` in
+  `.all_images.yml`.
 
 ## 2025-10-30 v0.4.3
 
-- Added `term/ansicolor` gem for colored terminal output
-  - Added `require 'term/ansicolor'` to enable ANSI color support
-  - Enables colorized console output in configuration management
+### Features
+
+- Add `term/ansicolor` dependency for colored terminal output.
 
 ## 2025-10-29 v0.4.2
 
-- Added `require 'pathname'` to include the Pathname library
-- Enables path manipulation functionality in the constant configuration
+### Features
+- Added `require 'pathname'` to enable path manipulation functionality in the constant configuration.
+
+### Build & CI
+- Updated `s.rubygems_version` in the gemspec from **3.6.9** to **3.7.2**.
 
 ## 2025-10-15 v0.4.1
 
-- Added `.github/workflows/static.yml` to deploy static content to GitHub Pages
-- Updated `README.md` to include link to GitHub.io documentation
-- Modified `Rakefile` to ignore `.github` directory and add GitHub workflows
-  configuration
-- Configured workflow to use Ruby **3.4** and generate documentation using
-  `rake doc`
-- Added workflow dispatch support for manual triggering
-- Configured permissions for pages deployment with read/write access to
-  contents and pages
-- Set concurrency to prevent multiple deployments while allowing in-progress
-  ones to complete
-- Updated `gem_hadar` development dependency from version **2.6** to **2.8**
-- The gemspec file reflects the updated dependency version for `gem_hadar`
-- The dockerfile now includes `openssl-dev` in the apk add command
+### Build & CI
+- Added `.github/workflows/static.yml` to deploy static content and
+  documentation to GitHub Pages using Ruby **3.4**.
+- Updated `Rakefile` to ignore the `.github` directory and register GitHub
+  workflows configuration.
+- Added `openssl-dev` to the apk add command in the Dockerfile.
+
+### Documentation
+- Updated `README.md` to include a link to the GitHub.io documentation.
 
 ## 2025-09-18 v0.4.0
 
-- Improved handling of configuration files with trailing whitespace:
-  - Added `strip: false` parameter to the `ConstConf::FilePlugin#file` method to
-    enable automatic whitespace stripping when `strip: true` is specified
-  - Added comprehensive tests for the new strip functionality in
-    `file_plugin_spec.rb`
-- Updated the `simplecov` development dependency version from **0.23** to
-  **0.22** in both `Rakefile` and `const_conf.gemspec`
+### Features
+- Added a `strip: false` parameter to the `file` method in
+  `ConstConf::FilePlugin` to allow automatic removal of leading and
+  trailing whitespace from configuration file contents when `strip: true`
+  is specified.
+
+### Build & CI
+- Downgraded the `simplecov` development dependency version from **0.23**
+  to **0.22** in both the `Rakefile` and the gemspec to ensure consistent
+  coverage reporting environments.
 
 ## 2025-09-18 v0.3.1
 
-- Replaced `require 'rails'` with `require 'active_support/all'` to reduce
-  dependency size
-- Updated `tins` dependency from version **1.42** to **1.43**
-- Updated `complex_config` dependency from version **0.22** to **0.23**
-- Updated development dependencies: `context_spook` from **0.3** to **0.4**,
-  `all_images` from **0.6** to **0.8**, and `simplecov` from **0.22** to
-  **0.23**
-- Added required Ruby version constraint of **= 3.2**
-- Replaced `it` with `_1` in block parameters for Ruby **3.2** compatibility
-- Updated Dockerfile to install `bundler` and `gem_hadar` gems directly
-- Changed test command from `rake test` to `rake spec`
-- Added `fail_fast: true` to CI configuration
-- Added support for Ruby **3.3** and **3.2** Alpine images in CI pipeline
-- Fixed prefix computation in nested modules with
-- Added `color:#07f` to all diagram node style definitions in `README.md` to
-  improve text visibility on colored backgrounds
+### Fixes
+- Fixed prefix calculation in nested modules by using
+  `ask_and_send(:prefix)` to robustly detect the prefix when
+  using `ConstConf` in nested module contexts.
+
+### Improvements
+- Replaced `require 'rails'` with `require 'active_support/all'`
+  to reduce dependency size.
+- Updated `tins` dependency from **1.42** to **1.43**.
+- Updated `complex_config` dependency from **0.22** to **0.23**.
+- Relaxed Ruby version requirement from `= 3.2` to `~> 3.2` to
+  support Ruby 3.2.x releases.
+
+### Build & CI
+- Added Ruby version constraint of **3.2** to the gemspec and
+  `Rakefile`.
+- Updated `Dockerfile` configuration to install `bundler` and
+  `gem_hadar` directly and changed the test command from
+  `rake test` to `rake spec`.
+- Added `fail_fast: true` to the CI configuration.
+- Added support for Ruby **3.3** and **3.2** Alpine images in the
+  CI pipeline.
+
+### Documentation
+- Added `color:#07f` to diagram node styles in `README.md` to
+  improve text visibility on colored backgrounds.
 
 ## 2025-09-13 v0.2.2
 
-- Simplified ignore patterns in `Rakefile` by changing `*.contexts/*` to
-  `.contexts`
-- Removed `.github` from ignored patterns in `Rakefile`
-- Updated `gem_hadar` dependency from ~> **2.2** to ~> **2.6** in gemspec
-- Added documentation for getter methods with exclamation mark
+### Improvements
+- Simplified ignore patterns in the `Rakefile` by replacing
+  `*.contexts/*` with `.contexts` and removing `.github`
+
+### Build & CI
+- Updated the `gem_hadar` dependency requirement from `~> **2.2**` to
+  `~> **2.6**` in the gemspec
+
+### Documentation
+- Added documentation for getter methods with exclamation marks
 
 ## 2025-09-07 v0.2.1
 
-- Removed explicit boolean coercion previously applied to test values in
-  predicate methods
+### Fixes
+- Removed explicit boolean coercion applied to test values in predicate
+  methods within `ConstConf::ConstConfHelper`.
 
 ## 2025-09-07 v0.2.0
 
-- Implemented `ConstConf::ConstConfHelper` module in
-  `lib/const_conf/spec/const_conf_helper.rb`
-- Added comprehensive testing chapter to README.md explaining usage of
-  `const_conf_as` helper
-- Helper supports nested module constants and predicate method mocking
-- Created `lib/const_conf/spec.rb` require file for testing utilities
+### Features
+- Added `ConstConf::ConstConfHelper` module with a `const_conf_as` method
+  for overriding constant values and predicate methods during testing.
+
+### Documentation
+- Added a new testing chapter to `README.md` documenting the `const_conf_as`
+  helper for RSpec.
+- Added a `CHANGES.md` file containing the project's release history.
+- Reformatted long comment lines in source files to improve readability.
 
 ## 2025-09-02 v0.1.2
 
-- Added bold formatting to value display in tree output
+### Improvements
+- Applied bold formatting to the `value` field in the `ConstConf::Tree`
+  output for improved visual distinction.
 
 ## 2025-09-01 v0.1.1
 
-- Enables usage in both Rails and non-Rails applications
-- Maintains Rails integration when Rails is present
-- Uses more precise dependency on Active Support rather than full Rails
-  framework
+### Improvements
+- Replaced the `rails` dependency with a more precise dependency
+  on `activesupport` version **8**.
+- Made the loading of `const_conf/railtie` conditional on
+  `Rails::Railtie` being defined, enabling usage in non-Rails
+  applications.
 
 ## 2025-08-30 v0.1.0
 
-- Added `nested_module_constants` tracking set to maintain definition order
-- Updated `each_nested_configuration` to use depth-first search (DFS) with
-  correct ordering
-- Implemented override for `remove_const` method to keep tracking consistent
-- Added comprehensive tests for nested configuration ordering
-- Updated tree display implementation to use `nested_module_constants` instead
-  of `constants.sort`
-- Added comprehensive documentation and improved JSON/YAML plugin
-  implementations
+### Fixes
+- Fixed nested configuration ordering and tracking consistency by replacing
+  `constants.map` with `nested_module_constants.map` and updating the
+  `each_nested_configuration` logic to perform a depth-first traversal.
+- Added a `nested_module_constants` tracking set to maintain definition order
+  and implemented a `remove_const` override to keep the tracking consistent.
+- Updated the tree display to use `nested_module_constants` instead of
+  `constants.sort`.
+
+### Improvements
+- Added comprehensive documentation and improved the implementations of the
+  `json` and `yaml` plugins.
+
+### Testing
+- Added comprehensive tests for nested configuration ordering and
+  `remove_const` functionality.
+
+### Build & CI
+- Updated the `gem_hadar` development dependency from version **2.1** to
+  **2.2**.
+- Added `.starscope.db` and `cscope.out` to the ignore list in `.gitignore`
+  and `Rakefile`.
 
 ## 2025-08-28 v0.0.0
 
